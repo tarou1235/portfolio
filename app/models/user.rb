@@ -1,3 +1,3 @@
 class User < ApplicationRecord
-  has_many:items,foreign_key:"line_id",dependent: :destroy
+  has_many:items,dependent: :destroy
 end
