@@ -174,7 +174,7 @@ class LinebotController < ApplicationController
                               }
 
                               line_id=event['source']['userId']
-                              User.create(name:line_name(line_id),line_id:line_id)
+                              User.create(name:line_name(line_id),line_id: line_id)
                               client.push_message(event['source']['userId'], message)
 
                             when "edit"
