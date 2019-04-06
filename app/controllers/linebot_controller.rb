@@ -98,219 +98,122 @@ class LinebotController < ApplicationController
           @@items=user.items.where(paytype:"payer")
           message1=
           {
-  "type": "bubble",
-  "styles": {
-    "footer": {
-      "separator": true
-    }
-  },
-  "body": {
-    "type": "box",
-    "layout": "vertical",
-    "contents": [
-      {
-        "type": "text",
-        "text": "現時点の負担額",
-        "weight": "bold",
-        "color": "#1DB446",
-        "size": "sm"
-      },
-      {
-        "type": "text",
-        "text": "仮",
-        "weight": "bold",
-        "size": "xxl",
-        "margin": "md"
-      },
-      {
-        "type": "text",
-        "text": "※現時点での負担額となります",
-        "size": "xs",
-        "color": "#aaaaaa",
-        "wrap": true
-      },
-      {
-        "type": "separator",
-        "margin": "xxl"
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "margin": "xxl",
-        "spacing": "sm",
-        "contents": [
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": @@items(0).name,
-                "size": "sm",
-                "color": "#555555",
-                "flex": 0
-              },
-              {
-                "type": "text",
-                "text": @@items(1).payment,
-                "size": "sm",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "Chewing Gum",
-                "size": "sm",
-                "color": "#555555",
-                "flex": 0
-              },
-              {
-                "type": "text",
-                "text": "$0.99",
-                "size": "sm",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "Bottled Water",
-                "size": "sm",
-                "color": "#555555",
-                "flex": 0
-              },
-              {
-                "type": "text",
-                "text": "$3.33",
-                "size": "sm",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "separator",
-            "margin": "xxl"
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "margin": "xxl",
-            "contents": [
-              {
-                "type": "text",
-                "text": "ITEMS",
-                "size": "sm",
-                "color": "#555555"
-              },
-              {
-                "type": "text",
-                "text": "3",
-                "size": "sm",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "TOTAL",
-                "size": "sm",
-                "color": "#555555"
-              },
-              {
-                "type": "text",
-                "text": "$7.31",
-                "size": "sm",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "CASH",
-                "size": "sm",
-                "color": "#555555"
-              },
-              {
-                "type": "text",
-                "text": "$8.0",
-                "size": "sm",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          },
-          {
-            "type": "box",
-            "layout": "horizontal",
-            "contents": [
-              {
-                "type": "text",
-                "text": "CHANGE",
-                "size": "sm",
-                "color": "#555555"
-              },
-              {
-                "type": "text",
-                "text": "$0.69",
-                "size": "sm",
-                "color": "#111111",
-                "align": "end"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "type": "separator",
-        "margin": "xxl"
-      },
-      {
-        "type": "box",
-        "layout": "horizontal",
-        "margin": "md",
-        "contents": [
-          {
-            "type": "text",
-            "text": "PAYMENT ID",
-            "size": "xs",
-            "color": "#aaaaaa",
-            "flex": 0
-          },
-          {
-            "type": "text",
-            "text": "#743289384279",
-            "color": "#aaaaaa",
-            "size": "xs",
-            "align": "end"
-          }
-        ]
+    "type": "bubble",
+    "styles": {
+      "footer": {
+        "separator": true
       }
-    ]
-  }
-}
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "現時点の負担額",
+          "weight": "bold",
+          "color": "#1DB446",
+          "size": "sm"
+        },
+        {
+          "type": "text",
+          "text": "仮",
+          "weight": "bold",
+          "size": "xxl",
+          "margin": "md"
+        },
+        {
+          "type": "text",
+          "text": "※現時点での負担額となります",
+          "size": "xs",
+          "color": "#aaaaaa",
+          "wrap": true
+        },
+        {
+          "type": "separator",
+          "margin": "xxl"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "margin": "xxl",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": @@items[0].name,
+                  "size": "sm",
+                  "color": "#555555",
+                  "flex": 0
+                },
+                {
+                  "type": "text",
+                  "text": @@items[0].payment,
+                  "size": "sm",
+                  "color": "#111111",
+                  "align": "end"
+                }
+              ]
+            },
 
+            {
+              "type": "separator",
+              "margin": "xxl"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "margin": "xxl",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "ITEMS",
+                  "size": "sm",
+                  "color": "#555555"
+                },
+                {
+                  "type": "text",
+                  "text": "3",
+                  "size": "sm",
+                  "color": "#111111",
+                  "align": "end"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "margin": "xxl"
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "margin": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "PAYMENT ID",
+              "size": "xs",
+              "color": "#aaaaaa",
+              "flex": 0
+            },
+            {
+              "type": "text",
+              "text": "#743289384279",
+              "color": "#aaaaaa",
+              "size": "xs",
+              "align": "end"
+            }
+          ]
+        }
+      ]
+    }
+  }
 
 
 
