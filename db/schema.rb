@@ -14,6 +14,7 @@ ActiveRecord::Schema.define(version: 20190406183158) do
 
   create_table "items", force: :cascade do |t|
     t.string "name"
+    t.string "paytype"
     t.integer "payment"
     t.integer "line_id"
     t.datetime "created_at", null: false
