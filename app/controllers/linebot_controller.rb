@@ -43,7 +43,7 @@ class LinebotController < ApplicationController
           }
           client.push_message(event['source']['userId'], message)
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @@items=user.items(paytype:"host")
+          @@items=user.items.find_by(paytype:"host")
           @@columns=[]
           @@items.first(10).each do |item|
           @@columns.push(
@@ -118,6 +118,7 @@ class LinebotController < ApplicationController
                                   ]
                               }
              }
+          Group.create(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
 
@@ -172,9 +173,8 @@ class LinebotController < ApplicationController
                                 type: 'text',
                                 text: "ご参加ありがとうございます。立て替え払いをされた場合は、下のメニューにてお知らせください"
                               }
-
-                              line_id=event['source']['userId']
-                              User.create(name:line_name(line_id),line_id: line_id)
+                              @@group=Group.find_by(line_group_id:event['source']['groupId'])
+                              @@group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
                               client.push_message(event['source']['userId'], message)
 
                             when "edit"
@@ -242,8 +242,8 @@ class LinebotController < ApplicationController
  end
 
  def warikan(payment,name)
-   payment=-1*payment/User.count
-   users=User.all
+   payment=-1*payment/@@group.users.count
+   users=@@group.users.all
    users.each{|user|
      user.items.create(payment:payment,name:name,paytype:"payer")
    }

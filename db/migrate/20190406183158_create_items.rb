@@ -4,7 +4,7 @@ class CreateItems < ActiveRecord::Migration[5.1]
       t.string :name
       t.string :paytype
       t.integer:payment
-      t.string:line_id
+      t.references :user, foreign_key: true
       t.timestamps
     end
   end
