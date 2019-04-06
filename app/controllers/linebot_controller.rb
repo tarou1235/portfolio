@@ -9,7 +9,6 @@ class LinebotController < ApplicationController
  @@payment=nil
  @@destroy=nil
 
- liff.init(successCallback, errorCallback)
   def client
         @client ||= Line::Bot::Client.new { |config|
           config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
