@@ -127,7 +127,7 @@ class LinebotController < ApplicationController
                 @@payment=event.message['text'].to_i
                 user=User.find_by(line_id:event['source']['userId'])
                 user.items.create(payment:@@payment,name:@@name,paytype:"host")
-                warikan(@@payment,@@name)
+                warikan(@@payment,@@name,user)
                 message = {
                   type: 'text',
                   text: 'それでは登録いたします'
@@ -241,9 +241,10 @@ class LinebotController < ApplicationController
    end
  end
 
- def warikan(payment,name)
-   payment=-1*payment/@@group.users.count
-   users=@@group.users.all
+ def warikan(payment,name,user)
+   group=user.group
+   users=group.users.all
+   payment=-1*payment/users.count
    users.each{|user|
      user.items.create(payment:payment,name:name,paytype:"payer")
    }
