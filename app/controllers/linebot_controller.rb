@@ -43,9 +43,9 @@ class LinebotController < ApplicationController
           }
           client.push_message(event['source']['userId'], message)
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @@items=user.items.find_by(paytype:"host")
+          @@items=user.items.where(paytype:"host")
           @@columns=[]
-          @@items.each do |item|
+          @@items.first(10).each do |item|
           @@columns.push(
               {
                 "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
