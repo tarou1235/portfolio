@@ -16,14 +16,14 @@ ActiveRecord::Schema.define(version: 20190406183158) do
     t.string "name"
     t.string "paytype"
     t.integer "payment"
-    t.integer "line_id"
+    t.string "line_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
-    t.integer "line_id"
+    t.string "line_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
