@@ -173,8 +173,8 @@ class LinebotController < ApplicationController
                                 text: "ご参加ありがとうございます。立て替え払いをされた場合は、下のメニューにてお知らせください"
                               }
 
-                              @@line_id=event['source']['userId']
-                              User.create(name:line_name(@@line_id),line_id: @@line_id)
+                              line_id=event['source']['userId']
+                              User.create(name:line_name(line_id),line_id: event['source']['userId'])
                               client.push_message(event['source']['userId'], message)
 
                             when "edit"
