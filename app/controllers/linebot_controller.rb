@@ -97,12 +97,13 @@ class LinebotController < ApplicationController
           @@items=user.items.where(paytype:"payer")
           @@items.each do |item|
           @@columns=[]
-          @@columns.push(
+          @@columns.push
+          (
                   {
                     "type": "box",
                     "layout": "horizontal",
                     "contents":
-                [
+                    [
                   {
                     "type": "text",
                     "text": item.name.to_s,
@@ -118,7 +119,7 @@ class LinebotController < ApplicationController
                     "align": "end"
                   }
                 ]
-              }
+                  }
           )
           end
 
@@ -163,9 +164,7 @@ class LinebotController < ApplicationController
                                     "layout": "vertical",
                                     "margin": "xxl",
                                     "spacing": "sm",
-                                    "contents":
-                                      @@columns
-                                      ,
+                                    "contents": @@columns,
                                       {
                                         "type": "separator",
                                         "margin": "xxl"
@@ -190,7 +189,6 @@ class LinebotController < ApplicationController
                                           }
                                         ]
                                       }
-
                                   },
                                   {
                                     "type": "separator",
@@ -218,8 +216,8 @@ class LinebotController < ApplicationController
                                     ]
                                   }
                                 ]
-                              }
                             }
+                        }
           message1=
                   {
                                     "type": "flex",
