@@ -97,8 +97,7 @@ class LinebotController < ApplicationController
           @@items=user.items.where(paytype:"payer")
           @@columns=[]
           #@@items.each do |item|
-          @@columns.push
-          (
+          @@columns=
                   {
                     "type": "box",
                     "layout": "horizontal",
@@ -120,7 +119,7 @@ class LinebotController < ApplicationController
                       }
                     ]
                   }
-          )
+          
           #end
           @@bubble ={
                       "type": "bubble",
