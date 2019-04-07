@@ -96,7 +96,7 @@ class LinebotController < ApplicationController
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
           @@items=user.items.where(paytype:"payer")
           #@@columns=[]
-          #@@items.each do |item|
+          @@items.each do |item|
           @@columns=
                   {
                     "type": "box",
@@ -105,14 +105,14 @@ class LinebotController < ApplicationController
                     [
                       {
                         "type": "text",
-                        "text": "item.name.to_s",
+                        "text": item.name.to_s,
                         "size": "sm",
                         "color": "#555555",
                         "flex": 0
                       },
                       {
                         "type": "text",
-                        "text": "item.payment.to_s",
+                        "text": item.payment.to_s,
                         "size": "sm",
                         "color": "#111111",
                         "align": "end"
@@ -120,7 +120,7 @@ class LinebotController < ApplicationController
                     ]
                   }
 
-          #end
+          end
           @@bubble ={
                       "type": "bubble",
                       "styles": {
