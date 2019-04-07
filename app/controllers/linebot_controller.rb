@@ -94,8 +94,29 @@ class LinebotController < ApplicationController
             text: '現時点での一人あたりの負担額はこちらになります'
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @@item=user.items.find_by(paytype:"host")
-          @@item_data ={
+          @@items=user.items.find_by(paytype:"payer")
+          @@items.first(10).each do |item|
+          @@columns=[]
+          @@columns.push
+                [
+                  {
+                    "type": "text",
+                    "text": @@item.name,
+                    "size": "sm",
+                    "color":"#555555",
+                    "flex": 0
+                  },
+                  {
+                    "type": "text",
+                    "text": @@item.payment,
+                    "size": "sm",
+                    "color":"#111111",
+                    "align": "end"
+                  }
+                ]
+          end
+
+          @@bubble ={
                       "type": "bubble",
                       "styles": {
                                   "footer": {
@@ -140,22 +161,7 @@ class LinebotController < ApplicationController
                                       {
                                         "type": "box",
                                         "layout": "horizontal",
-                                        "contents": [
-                                          {
-                                            "type": "text",
-                                            "text": @@item.name,
-                                            "size": "sm",
-                                            "color": "#555555",
-                                            "flex": 0
-                                          },
-                                          {
-                                            "type": "text",
-                                            "text": @@item.payment,
-                                            "size": "sm",
-                                            "color":"#111111",
-                                            "align": "end"
-                                          }
-                                        ]
+                                        "contents": @@columns
                                       },
                                       {
                                         "type": "separator",
@@ -211,11 +217,12 @@ class LinebotController < ApplicationController
                                 ]
                               }
                             }
+                  end
           message1=
                   {
                                     "type": "flex",
                                     "altText": "this is a flex message",
-                                    "contents":@@item_data
+                                    "contents":@@bubble
                   }
           client.push_message(event['source']['userId'], message)
           client.push_message(event['source']['userId'], message1)
