@@ -94,26 +94,26 @@ class LinebotController < ApplicationController
             text: '現時点での一人あたりの負担額はこちらになります'
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @@item=user.items.find_by(paytype:"payer")
+          @@items=user.items.where(paytype:"payer")
           @@columns=[]
-          #@@item.first(10).each do |item|
+          @@items.first(10).each do |item|
           @@columns.push(
                   {
                     "type": "text",
-                    "text": "item.name",
+                    "text": item.name.to_s,
                     "size": "sm",
                     "color": "#555555",
                     "flex": 0
                   },
                   {
                     "type": "text",
-                    "text": "item.payment",
+                    "text": item.payment.to_s,
                     "size": "sm",
                     "color":"#111111",
                     "align": "end"
                   }
                 )
-          #end
+          end
 
           @@bubble ={
                       "type": "bubble",
@@ -160,22 +160,7 @@ class LinebotController < ApplicationController
                                       {
                                         "type": "box",
                                         "layout": "horizontal",
-                                        "contents": [
-                                        {
-                                          "type": "text",
-                                          "text":@@item.name.to_s,
-                                          "size": "sm",
-                                          "color":"#555555",
-                                          "flex": 0
-                                        },
-                                        {
-                                          "type": "text",
-                                          "text":@@item.payment.to_s,
-                                          "size": "sm",
-                                          "color": "#111111",
-                                          "align": "end"
-                                        }
-                                        ]
+                                        "contents": @@columns
                                       },
                                       {
                                         "type": "separator",
