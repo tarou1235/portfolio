@@ -380,7 +380,7 @@ class LinebotController < ApplicationController
    users=group.users.all
    per_payment=-1*cost.payment/users.count
    users.each{|user|
-                user.items.create(payment:per_payment,cost_id:cost.id)
+                Item.create(payment:per_payment,cost_id:cost.id,user_id.user.id)
              }
   end
 end
