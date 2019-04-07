@@ -51,7 +51,7 @@ class LinebotController < ApplicationController
                 "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
                 "imageBackgroundColor": "#FFFFFF",
                 "title": item.name,
-                "text":  item.payment.to_s(:currency),
+                "text":  item.payment.to_s(:currency,:locale "jp"),
                 "actions": [
                     {
                         "type": "uri",
@@ -109,14 +109,14 @@ class LinebotController < ApplicationController
                         "type": "text",
                         "text": item.name.to_s,
                         "size": "sm",
-                        "color": "#555555",
+                        "color":  "#555555",
                         "flex": 0
                       },
                       {
                         "type": "text",
-                        "text": item.payment.to_s(:currency),
+                        "text": item.payment.to_s(:currency,:locale "jp"),
                         "size": "sm",
-                        "color":  "#111111",
+                        "color":   "#111111",
                         "align": "end"
                       }
                     ]
@@ -186,9 +186,9 @@ class LinebotController < ApplicationController
                                           },
                                           {
                                             "type": "text",
-                                            "text": @@sum.to_s(:currency),
+                                            "text": @@sum.to_s(:currency,:locale "jp"),
                                             "size": "sm",
-                                            "color": "#111111",
+                                            "color":  "#111111",
                                             "align": "end"
                                           }
                                         ]
