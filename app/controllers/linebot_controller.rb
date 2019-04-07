@@ -163,14 +163,14 @@ class LinebotController < ApplicationController
                                         "contents": [
                                         {
                                           "type": "text",
-                                          "text": "@@items(0).name",
+                                          "text": @@items[0].name,
                                           "size": "sm",
                                           "color": "#555555",
                                           "flex": 0
                                         },
                                         {
                                           "type": "text",
-                                          "text": "@@item(0).payment",
+                                          "text": @@item[0].payment,
                                           "size": "sm",
                                           "color": "#111111",
                                           "align": "end"
