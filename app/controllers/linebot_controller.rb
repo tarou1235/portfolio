@@ -113,7 +113,7 @@ class LinebotController < ApplicationController
                     "align": "end"
                   }
                 )
-          end
+          #end
 
           @@bubble ={
                       "type": "bubble",
