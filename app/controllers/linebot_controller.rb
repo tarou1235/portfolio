@@ -51,7 +51,7 @@ class LinebotController < ApplicationController
                 "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
                 "imageBackgroundColor": "#FFFFFF",
                 "title": item.name,
-                "text":  item.payment,
+                "text":  item.payment.to_s(:currency),
                 "actions": [
                     {
                         "type": "uri",
@@ -114,7 +114,7 @@ class LinebotController < ApplicationController
                       },
                       {
                         "type": "text",
-                        "text": item.payment.to_s,
+                        "text": item.payment.to_s[:currency],
                         "size": "sm",
                         "color": "#111111",
                         "align": "end"
@@ -186,7 +186,7 @@ class LinebotController < ApplicationController
                                           },
                                           {
                                             "type": "text",
-                                            "text": @@sum.to_s,
+                                            "text": @@sum.to_s(:currency),
                                             "size": "sm",
                                             "color": "#111111",
                                             "align": "end"
