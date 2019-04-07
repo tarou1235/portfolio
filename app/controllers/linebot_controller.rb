@@ -106,14 +106,14 @@ class LinebotController < ApplicationController
                     [
                       {
                         "type": "text",
-                        "text": item.name.to_s,
+                        "text": "item.name.to_s",
                         "size": "sm",
                         "color": "#555555",
                         "flex": 0
                       },
                       {
                         "type": "text",
-                        "text": item.payment.to_s,
+                        "text": "item.payment.to_s",
                         "size": "sm",
                         "color": "#111111",
                         "align": "end"
