@@ -164,7 +164,8 @@ class LinebotController < ApplicationController
                                     "layout": "vertical",
                                     "margin": "xxl",
                                     "spacing": "sm",
-                                    "contents": @@columns,
+                                    "contents": @@columns
+                                  },
                                       {
                                         "type": "separator",
                                         "margin": "xxl"
