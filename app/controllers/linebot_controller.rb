@@ -95,127 +95,124 @@ class LinebotController < ApplicationController
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
           @@item=user.items.find_by(paytype:"host")
-          message1=
-          {
-    "type": "bubble",
-    "styles": {
-      "footer": {
-        "separator": true
-      }
-    },
-    "body": {
-      "type": "box",
-      "layout": "vertical",
-      "contents": [
-        {
-          "type": "text",
-          "text": "現時点の負担額",
-          "weight": "bold",
-          "color": "#1DB446",
-          "size": "sm"
-        },
-        {
-          "type": "text",
-          "text": "仮",
-          "weight": "bold",
-          "size": "xxl",
-          "margin": "md"
-        },
-        {
-          "type": "text",
-          "text": "※現時点での負担額となります",
-          "size": "xs",
-          "color": "#aaaaaa",
-          "wrap": true
-        },
-        {
-          "type": "separator",
-          "margin": "xxl"
-        },
-        {
-          "type": "box",
-          "layout": "vertical",
-          "margin": "xxl",
-          "spacing": "sm",
-          "contents": [
-            {
-              "type": "box",
-              "layout": "horizontal",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "@@item.name",
-                  "size": "sm",
-                  "color": "#555555",
-                  "flex": 0
-                },
-                {
-                  "type": "text",
-                  "text": "@@item.payment",
-                  "size": "sm",
-                  "color": "#111111",
-                  "align": "end"
-                }
-              ]
-            },
-            {
-              "type": "separator",
-              "margin": "xxl"
-            },
-            {
-              "type": "box",
-              "layout": "horizontal",
-              "margin": "xxl",
-              "contents": [
-                {
-                  "type": "text",
-                  "text": "ITEMS",
-                  "size": "sm",
-                  "color": "#555555"
-                },
-                {
-                  "type": "text",
-                  "text": "3",
-                  "size": "sm",
-                  "color": "#111111",
-                  "align": "end"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "separator",
-          "margin": "xxl"
-        },
-        {
-          "type": "box",
-          "layout": "horizontal",
-          "margin": "md",
-          "contents": [
-            {
-              "type": "text",
-              "text": "PAYMENT ID",
-              "size": "xs",
-              "color": "#aaaaaa",
-              "flex": 0
-            },
-            {
-              "type": "text",
-              "text": "#743289384279",
-              "color": "#aaaaaa",
-              "size": "xs",
-              "align": "end"
-            }
-          ]
-        }
-      ]
-    }
-  }
+          message1={
+                      "type": "bubble",
+                      "styles": {
+                      "footer": {
+                      "separator": true
+                                }
+                              },
+                              "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                  {
+                                    "type": "text",
+                                    "text": "現時点の負担額",
+                                    "weight": "bold",
+                                    "color": "#1DB446",
+                                    "size": "sm"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": "仮",
+                                    "weight": "bold",
+                                    "size": "xxl",
+                                    "margin": "md"
+                                  },
+                                  {
+                                    "type": "text",
+                                    "text": "※現時点での負担額となります",
+                                    "size": "xs",
+                                    "color": "#aaaaaa",
+                                    "wrap": true
+                                  },
+                                  {
+                                    "type": "separator",
+                                    "margin": "xxl"
+                                  },
+                                  {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "margin": "xxl",
+                                    "spacing": "sm",
+                                    "contents": [
+                                      {
+                                        "type": "box",
+                                        "layout": "horizontal",
+                                        "contents": [
+                                          {
+                                            "type": "text",
+                                            "text": "@@item.name",
+                                            "size": "sm",
+                                            "color": "#555555",
+                                            "flex": 0
+                                          },
+                                          {
+                                            "type": "text",
+                                            "text": "@@item.payment",
+                                            "size": "sm",
+                                            "color": "#111111",
+                                            "align": "end"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "separator",
+                                        "margin": "xxl"
+                                      },
+                                      {
+                                        "type": "box",
+                                        "layout": "horizontal",
+                                        "margin": "xxl",
+                                        "contents": [
+                                          {
+                                            "type": "text",
+                                            "text": "ITEMS",
+                                            "size": "sm",
+                                            "color": "#555555"
+                                          },
+                                          {
+                                            "type": "text",
+                                            "text": "3",
+                                            "size": "sm",
+                                            "color": "#111111",
+                                            "align": "end"
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "separator",
+                                    "margin": "xxl"
+                                  },
+                                  {
+                                    "type": "box",
+                                    "layout": "horizontal",
+                                    "margin": "md",
+                                    "contents": [
+                                      {
+                                        "type": "text",
+                                        "text": "PAYMENT ID",
+                                        "size": "xs",
+                                        "color": "#aaaaaa",
+                                        "flex": 0
+                                      },
+                                      {
+                                        "type": "text",
+                                        "text": "#743289384279",
+                                        "color": "#aaaaaa",
+                                        "size": "xs",
+                                        "align": "end"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
           client.push_message(event['source']['userId'], message)
           client.push_message(event['source']['userId'], message1)
-
-
 
         when "開始" then
           message = {
