@@ -95,13 +95,13 @@ class LinebotController < ApplicationController
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
           @@item=user.items.find_by(paytype:"host")
-          message1={
+          @@item_data ={
                       "type": "bubble",
                       "styles": {
-                      "footer": {
-                      "separator": true
-                                }
-                              },
+                                  "footer": {
+                                              "separator": true
+                                            }
+                                 },
                               "body": {
                                 "type": "box",
                                 "layout": "vertical",
@@ -211,6 +211,17 @@ class LinebotController < ApplicationController
                                 ]
                               }
                             }
+          message1=
+                  {
+                                    "type": "template",
+                                    "altText": "this is a carousel template",
+                                    "template": {
+                                                  "type": "carousel",
+                                                  "columns": @@item_data,
+                                                  "imageAspectRatio": "rectangle",
+                                                  "imageSize": "cover"
+                                                }
+                  }
           client.push_message(event['source']['userId'], message)
           client.push_message(event['source']['userId'], message1)
 
