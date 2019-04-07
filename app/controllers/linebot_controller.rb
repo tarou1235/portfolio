@@ -95,8 +95,8 @@ class LinebotController < ApplicationController
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
           @@items=user.items.where(paytype:"payer")
-          @@items.first(10).each do |item|
           @@columns=[]
+          @@items.first(10).each do |item|
           @@columns.push(
                   {
                     "type": "text",
