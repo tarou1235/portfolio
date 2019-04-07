@@ -99,6 +99,11 @@ class LinebotController < ApplicationController
           @@items.first(10).each do |item|
           @@columns.push(
                   {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents":
+                [
+                  {
                     "type": "text",
                     "text": item.name.to_s,
                     "size": "sm",
@@ -112,6 +117,8 @@ class LinebotController < ApplicationController
                     "color":"#111111",
                     "align": "end"
                   }
+                ]
+              }
                 )
           end
 
