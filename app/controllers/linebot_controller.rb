@@ -4,13 +4,13 @@ class LinebotController < ApplicationController
   # callbackアクションのCSRFトークン認証を無効
   protect_from_forgery :except => [:callback]
 
- @naiyou_flag=false
- @name=nil
- @payment=nil
- @destroy=nil
+ @@naiyou_flag=false
+ @@name=nil
+ @@payment=nil
+ @@destroy=nil
 
   def client
-        @client ||= Line::Bot::Client.new { |config|
+        @@client ||= Line::Bot::Client.new { |config|
           config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
             config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
         }
@@ -34,7 +34,7 @@ class LinebotController < ApplicationController
             text: '立て替えた内容を教えていただけますか'
           }
           client.push_message(event['source']['userId'], message)
-          @name="仮"
+          @@name="仮"
 
         when "編集" then
           message = {
@@ -43,10 +43,10 @@ class LinebotController < ApplicationController
           }
           client.push_message(event['source']['userId'], message)
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @costs=user.costs
-          @columns=[]
-          @costs.first(10).each do |cost|
-          @columns.push(
+          @@costs=user.costs
+          @@columns=[]
+          @@costs.first(10).each do |cost|
+          @@columns.push(
               {
                 "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
                 "imageBackgroundColor": "#FFFFFF",
@@ -81,7 +81,7 @@ class LinebotController < ApplicationController
                   "altText": "this is a carousel template",
                   "template": {
                                 "type": "carousel",
-                                "columns": @columns,
+                                "columns": @@columns,
                                 "imageAspectRatio": "rectangle",
                                 "imageSize": "cover"
                               }
@@ -94,13 +94,13 @@ class LinebotController < ApplicationController
             text: '現時点での一人あたりの負担額はこちらになります'
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @items=user.items
-          @sum=0
-          @columns=[]
-          @items.each do |item|
+          @@items=user.items
+          @@sum=0
+          @@columns=[]
+          @@items.each do |item|
           karipayment=-1*item.payment
-          @sum=@sum+karipayment
-          @columns.push(
+          @@sum=@@sum+karipayment
+          @@columns.push(
                   {
                     "type": "box",
                     "layout": "horizontal",
@@ -124,7 +124,7 @@ class LinebotController < ApplicationController
                   }
                         )
           end
-          @bubble ={
+          @@bubble ={
                       "type": "bubble",
                       "styles": {
                                   "footer": {
@@ -167,7 +167,7 @@ class LinebotController < ApplicationController
                                     "layout": "vertical",
                                     "margin": "xxl",
                                     "spacing": "sm",
-                                    "contents": @columns
+                                    "contents": @@columns
                                   },#金額明細
                                   {
                                         "type": "separator",
@@ -187,7 +187,7 @@ class LinebotController < ApplicationController
                                           },
                                           {
                                             "type": "text",
-                                            "text": @sum.to_s(:currency),
+                                            "text": @@sum.to_s(:currency),
                                             "size": "sm",
                                             "color":  "#111111",
                                             "align": "end"
@@ -226,7 +226,7 @@ class LinebotController < ApplicationController
                   {
                                     "type": "flex",
                                     "altText": "this is a flex message",
-                                    "contents":@bubble
+                                    "contents":@@bubble
                   }
           client.push_message(event['source']['userId'], message)
           client.push_message(event['source']['userId'], message1)
@@ -264,39 +264,39 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['groupId'], message1)
 
         else
-            if @name&&@payment then
-                @payment=event.message['text'].to_i
+            if @@name&&@@payment then
+                @@payment=event.message['text'].to_i
                 user=User.find_by(line_id:event['source']['userId'])
-                @cost=Cost.create(name:@name,payment:@payment,user_id:user.id)
-                #user.items.create(payment:@payment,name:@name,paytype:"host")
-                warikan(@cost)
+                @@cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id)
+                #user.items.create(payment:@@payment,name:@@name,paytype:"host")
+                warikan(@@cost)
                 message = {
                   type: 'text',
                   text: 'それでは登録いたします'
                 }
                 client.push_message(event['source']['userId'], message)
-                @payment=nil
-                @name=nil
+                @@payment=nil
+                @@name=nil
             end
 
-            if @name&&!@payment then
-              @name=event.message['text']
+            if @@name&&!@@payment then
+              @@name=event.message['text']
               message = {
                 type: 'text',
                 text: '続いて、支払い金額を教えていただけますか'
               }
               client.push_message(event['source']['userId'], message)
-              @payment=0
+              @@payment=0
             end
 
-            if @destroy then
+            if @@destroy then
               if event.message['text'] == "はい" then
                 message = {
                   type: 'text',
                   text: '削除いたしました'
                 }
                 client.push_message(event['source']['userId'], message)
-                @destroy.destroy
+                @@destroy.destroy
               else
                 message = {
                   type: 'text',
@@ -315,8 +315,8 @@ class LinebotController < ApplicationController
                                 type: 'text',
                                 text: "ご参加ありがとうございます。立て替え払いをされた場合は、下のメニューにてお知らせください"
                               }
-                              @group=Group.find_by(line_group_id:event['source']['groupId'])
-                              @group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
+                              @@group=Group.find_by(line_group_id:event['source']['groupId'])
+                              @@group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
                               client.push_message(event['source']['userId'], message)
 
                             when "edit"
@@ -350,7 +350,7 @@ class LinebotController < ApplicationController
                                               }
                                             }
                                   client.push_message(event['source']['userId'], message)
-                                  @destroy=Cost.find(postback[1].to_i)
+                                  @@destroy=Cost.find(postback[1].to_i)
                             when "nothing"
                                       message = {
                                         type: 'text',
@@ -368,7 +368,7 @@ class LinebotController < ApplicationController
   end
 
   def line_name(line_id)
-   response = @client.get_profile(line_id)
+   response = @@client.get_profile(line_id)
    case response
    when Net::HTTPSuccess then
      return JSON.parse(response.body)['displayName']
