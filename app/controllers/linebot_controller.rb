@@ -216,7 +216,6 @@ class LinebotController < ApplicationController
                                 ]
                               }
                             }
-                  end
           message1=
                   {
                                     "type": "flex",
@@ -353,15 +352,7 @@ class LinebotController < ApplicationController
                                       client.push_message(event['source']['userId'], message)
                             end
                 }
-        end
-
-
-
-
-
-
-
-
+      end
     }
     head :ok
 
