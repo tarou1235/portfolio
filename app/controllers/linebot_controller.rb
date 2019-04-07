@@ -56,7 +56,7 @@ class LinebotController < ApplicationController
                     {
                         "type": "uri",
                         "label": "編集",
-                        "uri": "https://tagu2.herokuapp.com/items/#{cost.id}/edit"
+                        "uri": "https://tagu2.herokuapp.com/costs/#{cost.id}/edit"
                     },
                     {
                         "type": "postback",

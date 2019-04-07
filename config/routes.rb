@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  root 'application#hello'  
+  root 'application#hello'
   post'/callback',to:'linebot#callback'
-  resources:users
+  resources:costs
   resources:items
 end
