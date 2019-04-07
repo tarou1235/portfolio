@@ -162,10 +162,10 @@ class LinebotController < ApplicationController
                                         "layout": "horizontal",
                                         "contents": [
                                         {
-                                          "type": "text", 
+                                          "type": "text",
                                           "text": @@items[0].name,
                                           "size": "sm",
-                                          "color": "#555555",
+                                          "color":  "#555555",
                                           "flex": 0
                                         },
                                         {
