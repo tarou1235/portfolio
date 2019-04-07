@@ -373,17 +373,14 @@ class LinebotController < ApplicationController
    when Net::HTTPSuccess then
      return JSON.parse(response.body)['displayName']
    end
- end
+  end
 
- def warikan(@cost)
-   group=@cost.user.group
+  def warikan(cost)
+   group=cost.user.group
    users=group.users.all
-   per_payment=-1*@cost.payment/users.count
+   per_payment=-1*cost.payment/users.count
    users.each{|user|
-     user.items.create(payment:per_payment,cost_id:@cost.id)
-   }
- end
-
-
-
+                user.items.create(payment:per_payment,cost_id:cost.id)
+             }
+  end
 end
