@@ -158,7 +158,6 @@ class LinebotController < ApplicationController
                 }
               ]
             },
-
             {
               "type": "separator",
               "margin": "xxl"
@@ -213,15 +212,6 @@ class LinebotController < ApplicationController
       ]
     }
   }
-
-
-
-
-
-
-
-
-
           client.push_message(event['source']['userId'], message)
           client.push_message(event['source']['userId'], message1)
 
