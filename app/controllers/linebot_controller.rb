@@ -94,7 +94,7 @@ class LinebotController < ApplicationController
             text: '現時点での一人あたりの負担額はこちらになります'
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @@items=user.items.where(paytype:"payer")
+          @@item=user.items.find_by(paytype:"payer")
           message1=
           {
     "type": "bubble",
@@ -144,14 +144,14 @@ class LinebotController < ApplicationController
               "contents": [
                 {
                   "type": "text",
-                  "text": @@items[0].name,
+                  "text": @@item.name,
                   "size": "sm",
                   "color": "#555555",
                   "flex": 0
                 },
                 {
                   "type": "text",
-                  "text": @@items[0].payment,
+                  "text": @@item.payment,
                   "size": "sm",
                   "color": "#111111",
                   "align": "end"
