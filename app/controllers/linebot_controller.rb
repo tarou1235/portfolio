@@ -94,8 +94,7 @@ class LinebotController < ApplicationController
             text: '現時点での一人あたりの負担額はこちらになります'
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @@items=user.items.where(paytype:"payer")
-          @@item=@@items[0]
+          @@item=user.items.find_by(paytype:"payer")
           @@columns=[]
           @@items.first(10).each do |item|
           @@columns.push(
