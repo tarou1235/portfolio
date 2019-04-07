@@ -190,7 +190,7 @@ class LinebotController < ApplicationController
                                           }
                                         ]
                                       }
-                                    ]
+
                                   },
                                   {
                                     "type": "separator",
