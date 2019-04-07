@@ -95,8 +95,10 @@ class LinebotController < ApplicationController
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
           @@items=user.items.where(paytype:"payer")
+          @@sum=0
           @@columns=[]
           @@items.each do |item|
+          @@sum=@@sum+item.payment
           @@columns.push(
                   {
                     "type": "box",
@@ -165,7 +167,7 @@ class LinebotController < ApplicationController
                                     "margin": "xxl",
                                     "spacing": "sm",
                                     "contents": @@columns
-                                  },
+                                  },#金額明細
                                   {
                                         "type": "separator",
                                         "margin": "xxl"
@@ -178,13 +180,13 @@ class LinebotController < ApplicationController
                                         [
                                           {
                                             "type": "text",
-                                            "text": "ITEMS",
+                                            "text": "合計金額（暫定）",
                                             "size": "sm",
                                             "color": "#555555"
                                           },
                                           {
-                                            "type": "text",
-                                            "text": "3",
+                                            "type": "integer",
+                                            "text": @@sum,
                                             "size": "sm",
                                             "color": "#111111",
                                             "align": "end"
