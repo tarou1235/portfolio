@@ -150,9 +150,9 @@ class LinebotController < ApplicationController
                                           },
                                           {
                                             "type": "text",
-                                            "text": @@item.payment,
+                                            "text": @@item.payment",
                                             "size": "sm",
-                                            "color": "#111111",
+                                            "color":"#111111",
                                             "align": "end"
                                           }
                                         ]
