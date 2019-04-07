@@ -51,7 +51,7 @@ class LinebotController < ApplicationController
                 "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
                 "imageBackgroundColor": "#FFFFFF",
                 "title": item.name,
-                "text":  -item.payment.to_s(:currency),
+                "text":  item.payment.to_s(:currency),
                 "actions": [
                     {
                         "type": "uri",
@@ -98,7 +98,8 @@ class LinebotController < ApplicationController
           @@sum=0
           @@columns=[]
           @@items.each do |item|
-          @@sum=@@sum+item.payment
+          karipayment=-1*item.payment
+          @@sum=@@sum+karipayment
           @@columns.push(
                   {
                     "type": "box",
@@ -114,7 +115,7 @@ class LinebotController < ApplicationController
                       },
                       {
                         "type": "text",
-                        "text": -item.payment.to_s(:currency),
+                        "text": karipayment.to_s(:currency),
                         "size": "sm",
                         "color":   "#111111",
                         "align": "end"
@@ -186,7 +187,7 @@ class LinebotController < ApplicationController
                                           },
                                           {
                                             "type": "text",
-                                            "text": -@@sum.to_s(:currency),
+                                            "text": @@sum.to_s(:currency),
                                             "size": "sm",
                                             "color":  "#111111",
                                             "align": "end"
