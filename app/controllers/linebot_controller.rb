@@ -97,8 +97,7 @@ class LinebotController < ApplicationController
           @@items=user.items.find_by(paytype:"payer")
           @@items.first(10).each do |item|
           @@columns=[]
-          @@columns.push
-                [
+          @@columns.push(
                   {
                     "type": "text",
                     "text": @@item.name,
@@ -113,7 +112,7 @@ class LinebotController < ApplicationController
                     "color":"#111111",
                     "align": "end"
                   }
-                ]
+                )
           end
 
           @@bubble ={
