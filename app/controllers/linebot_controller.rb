@@ -130,10 +130,12 @@ class LinebotController < ApplicationController
                                               "separator": true
                                             }
                                  },
-                              "body": {
+                              "body":
+                              {
                                 "type": "box",
                                 "layout": "vertical",
-                                "contents": [
+                                "contents":
+                                [
                                   {
                                     "type": "text",
                                     "text": "現時点の負担額",
@@ -166,15 +168,16 @@ class LinebotController < ApplicationController
                                     "spacing": "sm",
                                     "contents": @@columns
                                   },
-                                      {
+                                  {
                                         "type": "separator",
                                         "margin": "xxl"
                                       },
-                                      {
+                                  {
                                         "type": "box",
                                         "layout": "horizontal",
                                         "margin": "xxl",
-                                        "contents": [
+                                        "contents":
+                                        [
                                           {
                                             "type": "text",
                                             "text": "ITEMS",
@@ -189,8 +192,7 @@ class LinebotController < ApplicationController
                                             "align": "end"
                                           }
                                         ]
-                                      }
-                                  },
+                                   },
                                   {
                                     "type": "separator",
                                     "margin": "xxl"
@@ -217,8 +219,8 @@ class LinebotController < ApplicationController
                                     ]
                                   }
                                 ]
-                            }
-                        }
+                              }
+                    }
           message1=
                   {
                                     "type": "flex",
