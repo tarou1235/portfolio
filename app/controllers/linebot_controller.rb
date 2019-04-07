@@ -185,8 +185,8 @@ class LinebotController < ApplicationController
                                             "color": "#555555"
                                           },
                                           {
-                                            "type": "integer",
-                                            "text": @@sum,
+                                            "type": "text",
+                                            "text": @@sum.to_s,
                                             "size": "sm",
                                             "color": "#111111",
                                             "align": "end"
