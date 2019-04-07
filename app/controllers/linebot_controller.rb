@@ -213,14 +213,9 @@ class LinebotController < ApplicationController
                             }
           message1=
                   {
-                                    "type": "template",
-                                    "altText": "this is a carousel template",
-                                    "template": {
-                                                  "type": "carousel",
-                                                  "columns": @@item_data,
-                                                  "imageAspectRatio": "rectangle",
-                                                  "imageSize": "cover"
-                                                }
+                                    "type": "flex",
+                                    "altText": "this is a flex message",
+                                    "contents":@@item_data
                   }
           client.push_message(event['source']['userId'], message)
           client.push_message(event['source']['userId'], message1)
