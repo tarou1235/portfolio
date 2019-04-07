@@ -114,7 +114,7 @@ class LinebotController < ApplicationController
                     "type": "text",
                     "text": item.payment.to_s,
                     "size": "sm",
-                    "color":"#111111",
+                    "color": "#111111",
                     "align": "end"
                   }
                 ]
@@ -164,11 +164,8 @@ class LinebotController < ApplicationController
                                     "margin": "xxl",
                                     "spacing": "sm",
                                     "contents": [
-                                      {
-                                        "type": "box",
-                                        "layout": "horizontal",
-                                        "contents": @@columns
-                                      },
+                                      @@columns
+                                      ,
                                       {
                                         "type": "separator",
                                         "margin": "xxl"
