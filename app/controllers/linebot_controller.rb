@@ -119,9 +119,9 @@ class LinebotController < ApplicationController
                   }
                 ]
               }
-
+          )
           end
-        )
+
           @@bubble ={
                       "type": "bubble",
                       "styles": {
