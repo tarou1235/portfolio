@@ -96,7 +96,7 @@ class LinebotController < ApplicationController
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
           @@items=user.items.where(paytype:"payer")
           @@columns=[]
-          @@items.each do |item|
+          #@@items.each do |item|
           @@columns.push
           (
                   {
@@ -121,7 +121,7 @@ class LinebotController < ApplicationController
                     ]
                   }
           )
-          end
+          #end
           @@bubble ={
                       "type": "bubble",
                       "styles": {
