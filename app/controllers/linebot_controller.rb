@@ -95,6 +95,7 @@ class LinebotController < ApplicationController
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
           @@items=user.items.where(paytype:"payer")
+          @@item=@@items[0]
           @@columns=[]
           @@items.first(10).each do |item|
           @@columns.push(
@@ -163,14 +164,14 @@ class LinebotController < ApplicationController
                                         "contents": [
                                         {
                                           "type": "text",
-                                          "text": "@@items[0].name",
+                                          "text": @@item.name,
                                           "size": "sm",
                                           "color":  "#555555",
                                           "flex": 0
                                         },
                                         {
                                           "type": "text",
-                                          "text": "@@items[0].payment",
+                                          "text":  @@item.payment,
                                           "size": "sm",
                                           "color": "#111111",
                                           "align": "end"
