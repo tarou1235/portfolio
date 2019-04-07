@@ -162,7 +162,7 @@ class LinebotController < ApplicationController
                                         "layout": "horizontal",
                                         "contents": [
                                         {
-                                          "type": "text",
+                                          "type": "text", 
                                           "text": @@items[0].name,
                                           "size": "sm",
                                           "color": "#555555",
@@ -170,7 +170,7 @@ class LinebotController < ApplicationController
                                         },
                                         {
                                           "type": "text",
-                                          "text": @@item[0].payment,
+                                          "text": @@items[0].payment,
                                           "size": "sm",
                                           "color": "#111111",
                                           "align": "end"
