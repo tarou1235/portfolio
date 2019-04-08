@@ -243,8 +243,7 @@ class LinebotController < ApplicationController
                                  ]
                                }
                   }
-          message1=
-                  {
+          message1={
                                     "type": "flex",
                                     "altText": "this is a flex message",
                                     "contents":bubble
@@ -302,7 +301,8 @@ class LinebotController < ApplicationController
             client.push_message(event['source']['groupId'], message)
         else
             if @@name&&@@payment then
-                @@payment=event.message['text'].to_i
+
+                @@payment=event.message['text'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z').gsub(/[^\d]/, "").to_i #半角にして、数字のみ抽出
                 user=User.find_by(line_id:event['source']['userId'])
                 cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id)
                 warikan(cost)
@@ -445,7 +445,7 @@ class LinebotController < ApplicationController
                                   },
                               {
                                 "type": "text",
-                                "text": "支払い者#{user.name}さん",
+                                "text": "支払い者  #{user.name}さん",
                                 "weight": "bold",
                                 "color": "#1DB446",
                                 "size": "sm"
