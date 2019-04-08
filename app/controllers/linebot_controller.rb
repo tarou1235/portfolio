@@ -269,10 +269,14 @@ class LinebotController < ApplicationController
                                   ]
                               }
              }
+             message2 = {
+               type: 'text',
+               text: line_name(event['source']['groupId'])
+             }
           Group.create(line_group_id:event['source']['groupId']) if !Group.find_by(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
-          client.push_message(event['source']['groupId'], line_name(event['source']['groupId']))
+          client.push_message(event['source']['groupId'], message2)
         when "確認" then
             @@contents=[]
             @@items_data=[]
