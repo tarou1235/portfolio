@@ -98,7 +98,7 @@ class LinebotController < ApplicationController
           @@sum=0
           @@columns=[]
           @@items.each do |item|
-          karipayment=-1*item.payment
+          karipayment=item.payment
           @@sum=@@sum+karipayment
           @@columns.push(
                   {
@@ -378,7 +378,7 @@ class LinebotController < ApplicationController
   def warikan(cost)
    group=cost.user.group
    users=group.users.all
-   per_payment=-1*cost.payment/users.count
+   per_payment=cost.payment/users.count
    users.each{|user|
                 Item.create(payment:per_payment,cost_id:cost.id,user_id:user.id)
              }
