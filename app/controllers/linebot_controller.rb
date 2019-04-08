@@ -289,55 +289,15 @@ class LinebotController < ApplicationController
             users.each do |user|
               make_contents(user,"確認")
             end
-            bubble ={
-                        "type": "bubble",
-                        "styles": {
-                                    "footer": {
-                                                "separator": true
-                                              }
-                                   },
-                          "body": {
-                                  "type": "box",
-                                  "layout": "vertical",
-                                  "contents":
-                                  [
-                                    {
-                                      "type": "text",
-                                      "text": "最終精算額",
-                                      "weight": "bold",
-                                      "size": "xxl",
-                                      "margin": "md"
-                                    },
-                                    {
-                                      "type": "separator",
-                                      "margin": "xxl"
-                                    },
-                                    {
-                                      "type": "box",
-                                      "layout": "vertical",
-                                      "margin": "xxl",
-                                      "spacing": "sm",
-                                      "contents": @@items_data
-                                    },
-                                    {
-                                         "type": "separator",
-                                         "margin": "xxl"
-                                       },
-                                    {
-                                                          "type": "text",
-                                                          "text": "※マイナスの場合はお金をもらってください",
-                                                          "size": "xs",
-                                                          "color": "#aaaaaa",
-                                                          "wrap": true
-                                                        }
-                                   ]
-                                 }
-                    }
+            bubbles = {
+                        "type": "carousel",
+                        "contents": @@contents
+                      }
             message =
                       {
                                         "type": "flex",
                                         "altText": "this is a flex message",
-                                        "contents":bubble
+                                        "contents":bubbles
                       }
             client.push_message(event['source']['groupId'], message)
         when "終了" then
@@ -349,15 +309,24 @@ class LinebotController < ApplicationController
                 make_items(user,"終了")
               end
                 make_contents(user,"終了")
-              bubbles = {
-                          "type": "carousel",
-                          "contents": @@contents
+                bubble ={
+                            "type": "bubble",
+                            "styles": {
+                                        "footer": {
+                                                    "separator": true
+                                                  }
+                                       },
+                              "body": {
+                                      "type": "box",
+                                      "layout": "vertical",
+                                      "contents":@@contents
+                                     }
                         }
               message =
                         {
                                           "type": "flex",
                                           "altText": "this is a flex message",
-                                          "contents":bubbles
+                                          "contents":bubble
                         }
               client.push_message(event['source']['groupId'], message)
         else
@@ -529,39 +498,37 @@ class LinebotController < ApplicationController
                                  }
                     }) end
           when "終了" then
-          @@contents.push({
-                      "type": "bubble",
-                      "styles": {
-                                  "footer": {
-                                              "separator": true
-                                            }
-                                 },
-                        "body": {
-                                "type": "box",
-                                "layout": "vertical",
-                                "contents":
-                                [
-                                   {
-                                        "type": "text",
-                                        "text": "最終精算額",
-                                        "weight": "bold",
-                                        "size": "xxl",
-                                        "margin": "md"
-                                      },
-                                  {
-                                    "type": "separator",
-                                    "margin": "xxl"
-                                  },
-                                  {
-                                    "type": "box",
-                                    "layout": "vertical",
-                                    "margin": "xxl",
-                                    "spacing": "sm",
-                                    "contents": @@items_data
-                                  }
-                                 ]
-                               }
-                  })
+          @@contents.push([
+            {
+              "type": "text",
+              "text": "最終精算額",
+              "weight": "bold",
+              "size": "xxl",
+              "margin": "md"
+            },
+            {
+              "type": "separator",
+              "margin": "xxl"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "margin": "xxl",
+              "spacing": "sm",
+              "contents": @@items_data
+            },
+            {
+                 "type": "separator",
+                 "margin": "xxl"
+               },
+            {
+                                  "type": "text",
+                                  "text": "※マイナスの場合はお金をもらってください",
+                                  "size": "xs",
+                                  "color": "#aaaaaa",
+                                  "wrap": true
+            }
+           ])
         end
  end
 
