@@ -99,6 +99,7 @@ class LinebotController < ApplicationController
 
           items=user.items
           items_sum=0
+          items_columns=[]
           items.each do |item|
           karipayment=item.payment
           items_sum=items_sum+karipayment
@@ -128,6 +129,7 @@ class LinebotController < ApplicationController
           end
           costs=user.costs
           costs_sum=0
+          costs_columns=[]
           costs.each do |cost|
           karipayment=cost.payment
           costs_sum=costs_sum+karipayment
