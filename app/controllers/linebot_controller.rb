@@ -459,7 +459,7 @@ class LinebotController < ApplicationController
                                 "layout": "vertical",
                                 "margin": "xxl",
                                 "spacing": "sm",
-                                "contents": items_columns
+                                "contents": @@items_columns
                               }
                              ]
                            }
@@ -470,9 +470,9 @@ class LinebotController < ApplicationController
 
   def make_items(cost)
     items=cost.items
-    items_columns=[]
+    @@items_columns=[]
     items.each do |item|
-    items_columns.push(
+    @@items_columns.push(
             {
               "type": "box",
               "layout": "horizontal",
