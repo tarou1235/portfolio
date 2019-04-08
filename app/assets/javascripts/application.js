@@ -13,11 +13,3 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
-//= require jquery
-//= require autonumeric
-
-
-ready = ->
-$(document).trigger('refresh_autonumeric') 
-$(document).ready(ready)
-$(document).on('page:load', ready)
