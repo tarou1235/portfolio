@@ -284,60 +284,38 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['groupId'], message1)
         when "途中" then
             bubbles=[]
-            message={ "type": "carousel",
-                            "contents": [
-                                          {
-                                            "type": "bubble",
-                                            "body": {
-                                                      "type": "box",
-                                                      "layout": "vertical",
-                                                      "contents": [
-                                                                    {
-                                                                      "type": "text",
-                                                                      "text": "First bubble"
-                                                                    }
-                                                                  ]
-                                                    }
-                                          },
-                                          {
-                                            "type": "bubble",
-                                            "body": {
-                                              "type": "box",
-                                              "layout": "vertical",
-                                              "contents": [
-                                                            {
-                                                              "type": "text",
-                                                              "text": "Second bubble"
-                                                            }
-                                                          ]
-                                                    }
-                                          }
-                                        ]
-                            }
-            message1 ={
-                                                "type": "template",
-                                                "altText": "参加確認",
-                                                "template": {
-                                                    "type": "confirm",
-                                                    "text": "今回の企画に参加される方は、まずはこちらの参加ボタンを押してください",
-                                                    "actions": [
-                                                        {
-                                                          "type": "postback",
-                                                          "data":"join",
-                                                          "label": "参加",
-                                                          "displayText": "参加"
-                                                        },
-                                                        {
-                                                          "type": "postback",
-                                                          "data":"unjoin",
-                                                          "label": "参加しない",
-                                                          "displayText": "参加しない"
-                                                        }
-                                                    ]
-                                                }
-                               }
+            message = {
+  "type": "carousel",
+  "contents": [
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "First bubble"
+          }
+        ]
+      }
+    },
+    {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "Second bubble"
+          }
+        ]
+      }
+    }
+  ]
+}
             client.push_message(event['source']['groupId'], message)
-            client.push_message(event['source']['groupId'], message1)
         else
             if @@name&&@@payment then
                 @@payment=event.message['text'].to_i
