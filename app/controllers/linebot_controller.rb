@@ -28,15 +28,15 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.message['text']
         when "立替" then
-          @@name=nil
-          @@payment=nil
-          @@destroy=nil
-          message = {
-            type: 'text',
-            text: '立て替えた内容を教えていただけますか'
-          }
-          client.push_message(event['source']['userId'], message)
-          @@name="仮"
+            @@name=nil
+            @@payment=nil
+            @@destroy=nil
+            message = {
+              type: 'text',
+              text: '立て替えた内容を教えていただけますか'
+            }
+            client.push_message(event['source']['userId'], message)
+            @@name="仮"
         when "編集" then
           message = {
             type: 'text',
@@ -73,9 +73,6 @@ class LinebotController < ApplicationController
               }
         )
                        end
-
-
-
           message1=  {
                   "type": "template",
                   "altText": "this is a carousel template",
@@ -89,39 +86,36 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['userId'], message1)
 
         when "支払い" then
-
-          user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-
-
-          items=user.items
-          items_sum=0
-          items_columns=[]
-          items.each do |item|
-          karipayment=item.payment
-          items_sum=items_sum+karipayment
-          items_columns.push(
-                  {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "contents":
-                    [
-                      {
-                        "type": "text",
-                        "text": item.cost.name.to_s,
-                        "size": "sm",
-                        "color":  "#555555",
-                        "flex": 0
-                      },
-                      {
-                        "type": "text",
-                        "text": karipayment.to_s(:currency),
-                        "size": "sm",
-                        "color":   "#111111",
-                        "align": "end"
-                      }
-                    ]
-                  }
-                        )
+            user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
+            items=user.items
+            items_sum=0
+            items_columns=[]
+            items.each do |item|
+            karipayment=item.payment
+            items_sum=items_sum+karipayment
+            items_columns.push(
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents":
+                      [
+                        {
+                          "type": "text",
+                          "text": item.cost.name.to_s,
+                          "size": "sm",
+                          "color":  "#555555",
+                          "flex": 0
+                        },
+                        {
+                          "type": "text",
+                          "text": karipayment.to_s(:currency),
+                          "size": "sm",
+                          "color":   "#111111",
+                          "align": "end"
+                        }
+                      ]
+                    }
+                          )
           end
           costs=user.costs
           costs_sum=0
@@ -153,9 +147,6 @@ class LinebotController < ApplicationController
                   }
                         )
           end
-
-
-
           bubble ={
                       "type": "bubble",
                       "styles": {
@@ -287,7 +278,7 @@ class LinebotController < ApplicationController
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
-                make_contents(user,"確認")
+                make_contents(user,"確認") if user
               end
             bubbles = {
                         "type": "carousel",
@@ -306,7 +297,7 @@ class LinebotController < ApplicationController
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
-                make_items(user,"終了")
+                make_items(user,"終了") if user
               end
                 make_contents(user,"終了")
                 bubble ={
@@ -451,55 +442,54 @@ class LinebotController < ApplicationController
   end
 
   def make_contents(user,type)
-
         case type
           when "確認" then
             costs=user.costs if user.costs
             items=user.items if user.items
           costs.each do |cost|
             make_items(cost,"確認")
-            if cost
-            @@contents.push({
-                        "type": "bubble",
-                        "styles": {
-                                    "footer": {
-                                                "separator": true
-                                              }
-                                   },
-                          "body": {
-                                  "type": "box",
-                                  "layout": "vertical",
-                                  "contents":
-                                  [
-                                        {
-                                          "type": "text",
-                                          "text": cost.name,
-                                          "weight": "bold",
-                                          "size": "xxl",
-                                          "margin": "md"
-                                        },
-                                    {
-                                      "type": "text",
-                                      "text": "支払い者  #{user.name}さん",
-                                      "weight": "bold",
-                                      "color": "#1DB446",
-                                      "size": "sm"
-                                    },
-                                    {
-                                      "type": "separator",
-                                      "margin": "xxl"
-                                    },
-                                    {
-                                      "type": "box",
-                                      "layout": "vertical",
-                                      "margin": "xxl",
-                                      "spacing": "sm",
-                                      "contents": @@items_data
-                                    }
-                                   ]
-                                 }
-                    }) end
-              end
+          if cost
+               @@contents.push({
+                          "type": "bubble",
+                          "styles": {
+                                      "footer": {
+                                                  "separator": true
+                                                }
+                                     },
+                           "body": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "contents":
+                                    [
+                                          {
+                                            "type": "text",
+                                            "text": cost.name,
+                                            "weight": "bold",
+                                            "size": "xxl",
+                                            "margin": "md"
+                                          },
+                                      {
+                                        "type": "text",
+                                        "text": "支払い者  #{user.name}さん",
+                                        "weight": "bold",
+                                        "color": "#1DB446",
+                                        "size": "sm"
+                                      },
+                                      {
+                                        "type": "separator",
+                                        "margin": "xxl"
+                                      },
+                                      {
+                                        "type": "box",
+                                        "layout": "vertical",
+                                        "margin": "xxl",
+                                        "spacing": "sm",
+                                        "contents": @@items_data
+                                      }
+                                     ]
+                                   }
+                      }) end
+          end
           when "終了" then
           @@contents.push([
             {
@@ -523,7 +513,7 @@ class LinebotController < ApplicationController
             {
                  "type": "separator",
                  "margin": "xxl"
-               },
+            },
             {
                                   "type": "text",
                                   "text": "※マイナスの場合はお金をもらってください",
@@ -536,7 +526,6 @@ class LinebotController < ApplicationController
  end
 
   def make_items(obj,type)
-    @@items_data=[]
     case type
     when "確認" then
       items=obj.items if obj.items
@@ -569,12 +558,18 @@ class LinebotController < ApplicationController
       costs=obj.costs if obj.costs
       items=obj.items if obj.items
       @@sum=0
-      costs.each do |cost|
-        @@sum -= cost.payment
-      end
-      items.each do |item|
-        @@sum += item.payment
-      end
+
+        if costs
+          costs.each do |cost|
+            @@sum -= cost.payment
+          end
+        end
+
+        if items
+          items.each do |item|
+            @@sum += item.payment
+          end
+        end
       @@items_data.push(
                         {
                           "type": "box",
