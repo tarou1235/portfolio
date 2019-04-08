@@ -132,7 +132,7 @@ class LinebotController < ApplicationController
           costs_columns=[]
           costs.each do |cost|
           karipayment=cost.payment
-          costs_sum=costs_sum-karipayment)
+          costs_sum=costs_sum-karipayment
           costs_columns.push(
                   {
                     "type": "box",
@@ -159,7 +159,7 @@ class LinebotController < ApplicationController
           end
 
 
-          total_sum=costs_sum+items_sum
+
           bubble ={
                       "type": "bubble",
                       "styles": {
@@ -276,7 +276,7 @@ class LinebotController < ApplicationController
                                          },
                                          {
                                            "type": "text",
-                                           "text": total_sum.to_s(:currency),
+                                           "text": (costs_sum+items_sum).to_s(:currency),
                                            "size": "sm",
                                            "color":  "#111111",
                                            "align": "end"
