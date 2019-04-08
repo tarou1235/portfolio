@@ -373,8 +373,8 @@ class LinebotController < ApplicationController
                                 text: "ご参加ありがとうございます。立て替え払いをされた場合は、下のメニューにてお知らせください"
                               }
                               group=Group.find_by(line_group_id:event['source']['groupId'])
-                              if line_name(event['source']['userId']
-                                if !group.users.find_by(line_id: event['source']['userId'])
+                              if line_name(event['source']['userId'] then
+                                if !group.users.find_by(line_id: event['source']['userId']) then
                                   group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
                                   client.push_message(event['source']['userId'], message)
                                 end
@@ -457,7 +457,7 @@ class LinebotController < ApplicationController
             items=user.items if user.items
           costs.each do |cost|
             make_items(cost,"確認")
-          if cost
+          if cost then
                @@contents.push({
                           "type": "bubble",
                           "styles": {
@@ -568,13 +568,13 @@ class LinebotController < ApplicationController
       items=obj.items if obj.items
       @@sum=0
 
-        if costs
+        if costs then
           costs.each do |cost|
             @@sum -= cost.payment
           end
         end
 
-        if items
+        if items then
           items.each do |item|
             @@sum += item.payment
           end
