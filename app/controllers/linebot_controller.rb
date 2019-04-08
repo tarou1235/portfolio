@@ -451,10 +451,11 @@ class LinebotController < ApplicationController
   end
 
   def make_contents(user,type)
-    costs=user.costs if user.costs
-    items=user.items if user.items
+
         case type
           when "確認" then
+            costs=user.costs if user.costs
+            items=user.items if user.items
           costs.each do |cost|
             make_items(cost,"確認")
             @@contents.push({
