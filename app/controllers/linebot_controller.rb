@@ -454,51 +454,52 @@ class LinebotController < ApplicationController
   def make_contents(user,type)
         case type
           when "確認" then
-            costs=user.costs if user.costs
-            items=user.items if user.items
-          costs.each do |cost|
-            make_items(cost,"確認")
-          if cost&&user
-               @@contents.push({
-                          "type": "bubble",
-                          "styles": {
-                                      "footer": {
-                                                  "separator": true
-                                                }
-                                     },
-                           "body": {
-                                    "type": "box",
-                                    "layout": "vertical",
-                                    "contents":
-                                    [
-                                          {
-                                            "type": "text",
-                                            "text": cost.name,
-                                            "weight": "bold",
-                                            "size": "xxl",
-                                            "margin": "md"
-                                          },
-                                      {
-                                        "type": "text",
-                                        "text": "支払い者  #{user.name}さん",
-                                        "weight": "bold",
-                                        "color": "#1DB446",
-                                        "size": "sm"
-                                      },
-                                      {
-                                        "type": "separator",
-                                        "margin": "xxl"
-                                      },
-                                      {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "margin": "xxl",
-                                        "spacing": "sm",
-                                        "contents": @@items_data
-                                      }
-                                     ]
-                                   }
-                      }) end
+          if user.costs
+            costs=user.costs
+            costs.each do |cost|
+              make_items(cost,"確認")
+                 @@contents.push({
+                            "type": "bubble",
+                            "styles": {
+                                        "footer": {
+                                                    "separator": true
+                                                  }
+                                       },
+                             "body": {
+                                      "type": "box",
+                                      "layout": "vertical",
+                                      "contents":
+                                      [
+                                            {
+                                              "type": "text",
+                                              "text": cost.name,
+                                              "weight": "bold",
+                                              "size": "xxl",
+                                              "margin": "md"
+                                            },
+                                        {
+                                          "type": "text",
+                                          "text": "支払い者  #{user.name}さん",
+                                          "weight": "bold",
+                                          "color": "#1DB446",
+                                          "size": "sm"
+                                        },
+                                        {
+                                          "type": "separator",
+                                          "margin": "xxl"
+                                        },
+                                        {
+                                          "type": "box",
+                                          "layout": "vertical",
+                                          "margin": "xxl",
+                                          "spacing": "sm",
+                                          "contents": @@items_data
+                                        }
+                                       ]
+                                     }
+                                  }
+                                  ) end
+              end
           end
           when "終了" then
           @@contents.push([
@@ -538,8 +539,8 @@ class LinebotController < ApplicationController
   def make_items(obj,type)
     case type
     when "確認" then
-      items=obj.items if obj.items
-      if items
+      if obj.items
+          items=obj.items
           items.each do |item|
           @@items_data.push(
                   {
