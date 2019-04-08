@@ -497,9 +497,8 @@ class LinebotController < ApplicationController
                                         }
                                        ]
                                      }
-                                  }
-                                  ) end
-              end
+                                  })
+            end
           end
           when "終了" then
           @@contents.push([
