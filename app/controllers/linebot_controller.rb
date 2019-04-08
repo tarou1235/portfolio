@@ -269,7 +269,7 @@ class LinebotController < ApplicationController
                                   ]
                               }
              }
-          Group.create(line_group_id:event['source']['groupId'])
+          Group.create(line_group_id:event['source']['groupId']) if !Group.find_by(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
         when "確認" then
@@ -297,7 +297,7 @@ class LinebotController < ApplicationController
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
-                make_items(user,"終了") if user
+                make_items(user,"終了")
               end
                 make_contents(user,"終了")
                 bubble ={
@@ -373,18 +373,19 @@ class LinebotController < ApplicationController
                                 text: "ご参加ありがとうございます。立て替え払いをされた場合は、下のメニューにてお知らせください"
                               }
                               group=Group.find_by(line_group_id:event['source']['groupId'])
-                              #if line_name(event['source']['userId']
+                              if line_name(event['source']['userId'])
                                 if !group.users.find_by(line_id: event['source']['userId'])
                                   group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
                                   client.push_message(event['source']['userId'], message)
                                 end
-                              #else
-                                #message = {
-                                  #type: 'text',
-                                  #text: "友達登録がまだの方は、まずは友達登録をお願いします"
-                                #}
-                                #client.push_message(event['source']['groupId'], message)
-                              #end
+                              else
+                                message = {
+                                  type: 'text',
+                                  text: "友達登録がまだの方は、まずは友達登録をお願いします"
+                                }
+                                client.push_message(event['source']['groupId'], message)
+                              end
+
                             when "edit"
                                 message = {
                                   type: 'text',
@@ -457,7 +458,7 @@ class LinebotController < ApplicationController
             items=user.items if user.items
           costs.each do |cost|
             make_items(cost,"確認")
-          if cost
+          if cost&&user
                @@contents.push({
                           "type": "bubble",
                           "styles": {
@@ -564,22 +565,20 @@ class LinebotController < ApplicationController
                   }) end
       end
     when "終了" then
-      costs=obj.costs if obj.costs
-      items=obj.items if obj.items
       @@sum=0
-
-        if costs
+        if obj.costs
+          costs=obj.costs
           costs.each do |cost|
             @@sum -= cost.payment
           end
         end
 
-        if items
+        if obj.items
+          items=obj.items
           items.each do |item|
             @@sum += item.payment
           end
         end
-
       @@items_data.push(
                         {
                           "type": "box",
