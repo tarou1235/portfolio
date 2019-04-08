@@ -197,14 +197,12 @@ class LinebotController < ApplicationController
                                   {
                                     "type": "box",
                                     "layout": "vertical",
-                                    "margin": "xxl",
                                     "spacing": "sm",
                                     "contents": items_columns
                                   },
                                   {
                                      "type": "box",
                                      "layout": "vertical",
-                                     "margin": "xxl",
                                      "spacing": "sm",
                                      "contents": costs_columns
                                    },
@@ -219,7 +217,7 @@ class LinebotController < ApplicationController
                                        "contents": [
                                          {
                                            "type": "text",
-                                           "text": "支払い予定額合計",
+                                           "text": "合計",
                                            "size": "md",
                                            "color": "#555555"
                                          },
