@@ -131,7 +131,7 @@ class LinebotController < ApplicationController
           costs_sum=0
           costs_columns=[]
           costs.each do |cost|
-          -karipayment=cost.payment
+          karipayment=-cost.payment
           costs_sum=costs_sum+karipayment
           costs_columns.push(
                   {
@@ -211,27 +211,6 @@ class LinebotController < ApplicationController
                                      "spacing": "sm",
                                      "contents": costs_columns
                                    },
-                                  {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "margin": "xxl",
-                                    "contents":
-                                    [
-                                      {
-                                        "type": "text",
-                                        "text": "支払い済金額",
-                                        "size": "sm",
-                                        "color": "#555555"
-                                      },
-                                      {
-                                        "type": "text",
-                                        "text": costs_sum.to_s(:currency),
-                                        "size": "sm",
-                                        "color":  "#111111",
-                                        "align": "end"
-                                      }
-                                    ]
-                                  },
                                   {
                                        "type": "separator",
                                        "margin": "xxl"
