@@ -141,21 +141,21 @@ class LinebotController < ApplicationController
                                 [
                                   {
                                     "type": "text",
-                                    "text": "現時点の負担額",
+                                    "text": "#{user.name}さん",
                                     "weight": "bold",
                                     "color": "#1DB446",
                                     "size": "sm"
                                   },
                                   {
                                     "type": "text",
-                                    "text": "仮",
+                                    "text": "支払い予定額",
                                     "weight": "bold",
                                     "size": "xxl",
                                     "margin": "md"
                                   },
                                   {
                                     "type": "text",
-                                    "text": "※現時点での負担額となります",
+                                    "text": "※現時点の金額となります",
                                     "size": "xs",
                                     "color": "#aaaaaa",
                                     "wrap": true
@@ -183,7 +183,7 @@ class LinebotController < ApplicationController
                                         [
                                           {
                                             "type": "text",
-                                            "text": "合計金額（暫定）",
+                                            "text": "合計金額（負担分）",
                                             "size": "sm",
                                             "color": "#555555"
                                           },
