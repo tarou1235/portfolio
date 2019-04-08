@@ -131,8 +131,8 @@ class LinebotController < ApplicationController
           costs_sum=0
           costs_columns=[]
           costs.each do |cost|
-          karipayment=cost.payment
-          costs_sum=costs_sum-karipayment
+          -karipayment=cost.payment
+          costs_sum=costs_sum+karipayment
           costs_columns.push(
                   {
                     "type": "box",
@@ -141,16 +141,16 @@ class LinebotController < ApplicationController
                     [
                       {
                         "type": "text",
-                        "text": cost.name.to_s+"(立替分)",
+                        "text": cost.name.to_s + "(立替分)",
                         "size": "sm",
                         "color":  "#555555",
                         "flex": 0
                       },
                       {
                         "type": "text",
-                        "text": -1*karipayment.to_s(:currency),
+                        "text": karipayment.to_s(:currency),
                         "size": "sm",
-                        "color":　"#F70713",
+                        "color":"#f90909",
                         "align": "end"
                       }
                     ]
@@ -299,7 +299,6 @@ class LinebotController < ApplicationController
           Group.create(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
-
         else
             if @@name&&@@payment then
                 @@payment=event.message['text'].to_i
