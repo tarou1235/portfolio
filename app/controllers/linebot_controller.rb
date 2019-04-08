@@ -31,6 +31,7 @@ class LinebotController < ApplicationController
         when "立替" then
           @@name=nil
           @@payment=nil
+          @@destroy=nil
           message = {
             type: 'text',
             text: '立て替えた内容を教えていただけますか'
