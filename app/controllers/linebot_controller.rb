@@ -289,15 +289,55 @@ class LinebotController < ApplicationController
             users.each do |user|
               make_contents(user,"確認")
             end
-            bubbles = {
-                        "type": "carousel",
-                        "contents": @@contents
-                      }
+            bubble ={
+                        "type": "bubble",
+                        "styles": {
+                                    "footer": {
+                                                "separator": true
+                                              }
+                                   },
+                          "body": {
+                                  "type": "box",
+                                  "layout": "vertical",
+                                  "contents":
+                                  [
+                                    {
+                                      "type": "text",
+                                      "text": "最終精算額",
+                                      "weight": "bold",
+                                      "size": "xxl",
+                                      "margin": "md"
+                                    },
+                                    {
+                                      "type": "separator",
+                                      "margin": "xxl"
+                                    },
+                                    {
+                                      "type": "box",
+                                      "layout": "vertical",
+                                      "margin": "xxl",
+                                      "spacing": "sm",
+                                      "contents": @@items_data
+                                    },
+                                    {
+                                         "type": "separator",
+                                         "margin": "xxl"
+                                       },
+                                    {
+                                                          "type": "text",
+                                                          "text": "※マイナスの場合はお金をもらってください",
+                                                          "size": "xs",
+                                                          "color": "#aaaaaa",
+                                                          "wrap": true
+                                                        }
+                                   ]
+                                 }
+                    }
             message =
                       {
                                         "type": "flex",
                                         "altText": "this is a flex message",
-                                        "contents":bubbles
+                                        "contents":bubble
                       }
             client.push_message(event['source']['groupId'], message)
         when "終了" then
@@ -444,7 +484,6 @@ class LinebotController < ApplicationController
   def make_contents(user,type)
     costs=user.costs
     items=user.items
-    @@sum=0
         case type
           when "確認" then
           costs.each do |cost|
