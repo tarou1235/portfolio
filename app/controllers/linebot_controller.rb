@@ -230,16 +230,16 @@ class LinebotController < ApplicationController
                                            "weight": "bold",
                                            "color":  "#111111",
                                            "align": "end"
-                                         },
-                                          {
-                                             "type": "text",
-                                             "text": "マイナスの場合はお金をもらってください",
-                                             "size": "xs",
-                                             "color": "#aaaaaa",
-                                             "wrap": true
-                                           }
+                                         }
                                                     ]
-                                        }
+                                  },
+                                  {
+                                                        "type": "text",
+                                                        "text": "マイナスの場合はお金をもらってください",
+                                                        "size": "xs",
+                                                        "color": "#aaaaaa",
+                                                        "wrap": true
+                                                      }
                                  ]
                                }
                   }
