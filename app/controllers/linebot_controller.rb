@@ -283,7 +283,7 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
         when "途中" then
-            contents=[]
+            @@contents=[]
             group=Group.find_by(line_group_id:event['source']['groupId'])
             users=group.users.all
             users.each do |user|
