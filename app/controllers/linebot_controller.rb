@@ -284,11 +284,11 @@ class LinebotController < ApplicationController
         when "確認" then
             @@contents=[]
             @@items_data=[]
-            group=Group.find_by(line_group_id:event['source']['groupId'])
-            users=group.users.all
-            users.each do |user|
-              make_contents(user,"確認")
-            end
+              group=Group.find_by(line_group_id:event['source']['groupId'])
+              users=group.users.all
+              users.each do |user|
+                make_contents(user,"確認")
+              end
             bubbles = {
                         "type": "carousel",
                         "contents": @@contents
@@ -458,6 +458,7 @@ class LinebotController < ApplicationController
             items=user.items if user.items
           costs.each do |cost|
             make_items(cost,"確認")
+            if cost
             @@contents.push({
                         "type": "bubble",
                         "styles": {
@@ -470,7 +471,7 @@ class LinebotController < ApplicationController
                                   "layout": "vertical",
                                   "contents":
                                   [
-                                     {
+                                        {
                                           "type": "text",
                                           "text": cost.name,
                                           "weight": "bold",
@@ -498,6 +499,7 @@ class LinebotController < ApplicationController
                                    ]
                                  }
                     }) end
+              end
           when "終了" then
           @@contents.push([
             {
