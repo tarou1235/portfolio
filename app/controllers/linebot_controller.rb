@@ -23,7 +23,7 @@ class LinebotController < ApplicationController
           end
           events = client.parse_events_from(body)
 
-          events.each { |event|
+      events.each { |event|
       case event
       when Line::Bot::Event::Message
         case event.message['text']
@@ -283,9 +283,9 @@ class LinebotController < ApplicationController
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
-                make_contents(user,"確認") if user
+              make_contents(user,"確認") if user
               end
-            bubbles = {
+             bubbles = {
                         "type": "carousel",
                         "contents": @@contents
                       }
@@ -318,8 +318,7 @@ class LinebotController < ApplicationController
                                       "contents":@@contents
                                      }
                         }
-              message =
-                        {
+                message={
                                           "type": "flex",
                                           "altText": "this is a flex message",
                                           "contents":bubble
@@ -429,7 +428,7 @@ class LinebotController < ApplicationController
                                         text: "承知いたしました"
                                       }
                                       client.push_message(event['source']['userId'], message)
-                            end
+                          end
                 }
       end
     }
@@ -506,7 +505,7 @@ class LinebotController < ApplicationController
             end
           end
           when "終了" then
-          @@contents.push([
+          @@contents.push(
             {
               "type": "text",
               "text": "最終精算額",
@@ -536,7 +535,7 @@ class LinebotController < ApplicationController
                                   "color": "#aaaaaa",
                                   "wrap": true
             }
-           ])
+           )
         end
  end
 
