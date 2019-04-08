@@ -284,7 +284,7 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['groupId'], message1)
         when "途中" then
             bubbles=[]
-            bubbles.push(  "type": "carousel",
+            bubbles.push( { "type": "carousel",
                            "contents": [
                                           {
                                             "type": "bubble",
@@ -300,7 +300,8 @@ class LinebotController < ApplicationController
                                                     }
                                           }
                                        ]
-                         )
+                           }
+                       )
             message=bubbles
             client.push_message(event['source']['groupId'], message)
         else
