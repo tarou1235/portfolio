@@ -38,7 +38,6 @@ class LinebotController < ApplicationController
           }
           client.push_message(event['source']['userId'], message)
           @@name="仮"
-
         when "編集" then
           message = {
             type: 'text',
