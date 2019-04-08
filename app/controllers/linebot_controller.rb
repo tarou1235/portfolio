@@ -220,13 +220,13 @@ class LinebotController < ApplicationController
                                          {
                                            "type": "text",
                                            "text": "支払い予定額合計",
-                                           "size": "sm",
+                                           "size": "md",
                                            "color": "#555555"
                                          },
                                          {
                                            "type": "text",
                                            "text": (costs_sum+items_sum).to_s(:currency),
-                                           "size": "sm",
+                                           "size": "md",
                                            "weight": "bold",
                                            "color":  "#111111",
                                            "align": "end"
@@ -235,7 +235,7 @@ class LinebotController < ApplicationController
                                   },
                                   {
                                                         "type": "text",
-                                                        "text": "マイナスの場合はお金をもらってください",
+                                                        "text": "※マイナスの場合はお金をもらってください",
                                                         "size": "xs",
                                                         "color": "#aaaaaa",
                                                         "wrap": true
