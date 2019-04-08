@@ -283,70 +283,16 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
         when "途中" then
-            bubbles=[]
+            contents=[]
+            group=Group.find_by(line_group_id:event['source']['groupId'])
+            users=group.users.all
+            users.each do |user|
+              make_contents(contents,user)
+            end
             bubbles = {
-  "type": "carousel",
-  "contents": [
-    {
-      "type": "bubble",
-      "body": {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-          {
-            "type": "text",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-            "wrap": true
-          }
-        ]
-      },
-      "footer": {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-          {
-            "type": "button",
-            "style": "primary",
-            "action": {
-              "type": "uri",
-              "label": "Go",
-              "uri": "https://example.com"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "bubble",
-      "body": {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-          {
-            "type": "text",
-            "text": "Hello, World!",
-            "wrap": true
-          }
-        ]
-      },
-      "footer": {
-        "type": "box",
-        "layout": "horizontal",
-        "contents": [
-          {
-            "type": "button",
-            "style": "primary",
-            "action": {
-              "type": "uri",
-              "label": "Go",
-              "uri": "https://example.com"
-            }
-          }
-        ]
-      }
-    }
-  ]
-}
+                        "type": "carousel",
+                        "contents": [contents]
+                      }
             message =
                       {
                                         "type": "flex",
@@ -474,7 +420,84 @@ class LinebotController < ApplicationController
              }
   end
 
+  def make_contents(contents,user)
+    costs=user.costs
+    costs.each do |cost|
+      make_items(cost)
+      contents.push({
+                  "type": "bubble",
+                  "styles": {
+                              "footer": {
+                                          "separator": true
+                                        }
+                             },
+                    "body": {
+                            "type": "box",
+                            "layout": "vertical",
+                            "contents":
+                            [
+                               {
+                                    "type": "text",
+                                    "text": cost.name,
+                                    "weight": "bold",
+                                    "size": "xxl",
+                                    "margin": "md"
+                                  },
+                              {
+                                "type": "text",
+                                "text": "支払い者#{user.name}さん",
+                                "weight": "bold",
+                                "color": "#1DB446",
+                                "size": "sm"
+                              },
+                              {
+                                "type": "separator",
+                                "margin": "xxl"
+                              },
+                              {
+                                "type": "box",
+                                "layout": "vertical",
+                                "margin": "xxl",
+                                "spacing": "sm",
+                                "contents": items_columns
+                              }
+                             ]
+                           }
+              })
+    end
 
+  end
+
+  def make_items(cost)
+    items=cost.items
+    items_columns=[]
+    items.each do |item|
+    items_columns.push(
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents":
+              [
+                {
+                  "type": "text",
+                  "text": item.user.name.to_s + "さん",
+                  "size": "sm",
+                  "color":  "#555555",
+                  "flex": 0
+                },
+                {
+                  "type": "text",
+                  "text": item.payment.to_s(:currency),
+                  "size": "sm",
+                  "color":"#555555",
+                  "align": "end"
+                }
+              ]
+            }
+                  )
+    end
+
+  end
 
 
 
