@@ -29,6 +29,8 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.message['text']
         when "立替" then
+          @@name=nil
+          @@payment=nil
           message = {
             type: 'text',
             text: '立て替えた内容を教えていただけますか'
@@ -281,32 +283,29 @@ class LinebotController < ApplicationController
 
             if @@name&&!@@payment then
               @@name=event.message['text']
-              message = {
-                type: 'text',
-                text: '続いて、支払い金額を教えていただけますか'
-              }
+                message = {
+                  type: 'text',
+                  text: '続いて、支払い金額を教えていただけますか'
+                }
               client.push_message(event['source']['userId'], message)
               @@payment=0
             end
 
             if @@destroy then
-              if event.message['text'] == "はい" then
-                message = {
-                  type: 'text',
-                  text: '削除いたしました'
-                }
-                client.push_message(event['source']['userId'], message)
+                if event.message['text'] == "はい" then
+                  message = {
+                    type: 'text',
+                    text: '削除いたしました'
+                  }
+                  client.push_message(event['source']['userId'], message)
                 @@destroy.destroy
-                if @@destroy
-                  @@destroy=nil
+                else
+                  message = {
+                    type: 'text',
+                    text: '承知いたしました'
+                  }
+                  client.push_message(event['source']['userId'], message)
                 end
-              else
-                message = {
-                  type: 'text',
-                  text: '承知いたしました'
-                }
-                client.push_message(event['source']['userId'], message)
-              end
             end
         end
       when Line::Bot::Event::Postback
