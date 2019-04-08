@@ -90,10 +90,7 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['userId'], message1)
 
         when "支払い" then
-          message = {
-            type: 'text',
-            text: '現時点での一人あたりの負担額はこちらになります'
-          }
+
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
 
 
@@ -230,9 +227,17 @@ class LinebotController < ApplicationController
                                            "type": "text",
                                            "text": (costs_sum+items_sum).to_s(:currency),
                                            "size": "sm",
+                                           "weight": "bold",
                                            "color":  "#111111",
                                            "align": "end"
-                                         }
+                                         },
+                                          {
+                                             "type": "text",
+                                             "text": "マイナスの場合はお金をもらってください",
+                                             "size": "xs",
+                                             "color": "#aaaaaa",
+                                             "wrap": true
+                                           }
                                                     ]
                                         }
                                  ]
