@@ -287,11 +287,11 @@ class LinebotController < ApplicationController
             group=Group.find_by(line_group_id:event['source']['groupId'])
             users=group.users.all
             users.each do |user|
-              make_contents(contents,user)
+              make_contents(@@contents,user)
             end
             bubbles = {
                         "type": "carousel",
-                        "contents": [contents]
+                        "contents": [@@contents]
                       }
             message =
                       {
@@ -424,7 +424,7 @@ class LinebotController < ApplicationController
     costs=user.costs
     costs.each do |cost|
       make_items(cost)
-      contents.push({
+      @@contents.push({
                   "type": "bubble",
                   "styles": {
                               "footer": {
@@ -459,7 +459,7 @@ class LinebotController < ApplicationController
                                 "layout": "vertical",
                                 "margin": "xxl",
                                 "spacing": "sm",
-                                "contents": @@items_columns
+                                "contents": @@items_data
                               }
                              ]
                            }
@@ -470,9 +470,9 @@ class LinebotController < ApplicationController
 
   def make_items(cost)
     items=cost.items
-    @@items_columns=[]
+    @@items_data=[]
     items.each do |item|
-    @@items_columns.push(
+    @@items_data.push(
             {
               "type": "box",
               "layout": "horizontal",
