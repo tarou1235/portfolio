@@ -197,12 +197,14 @@ class LinebotController < ApplicationController
                                   {
                                     "type": "box",
                                     "layout": "vertical",
+                                    "margin": "xxl",
                                     "spacing": "sm",
                                     "contents": items_columns
                                   },
                                   {
                                      "type": "box",
                                      "layout": "vertical",
+                                     "margin": "xxl",
                                      "spacing": "sm",
                                      "contents": costs_columns
                                    },
@@ -219,7 +221,8 @@ class LinebotController < ApplicationController
                                            "type": "text",
                                            "text": "合計",
                                            "size": "md",
-                                           "color": "#555555"
+                                           "weight": "bold",
+                                           "color":  "#555555"
                                          },
                                          {
                                            "type": "text",
