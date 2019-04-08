@@ -248,7 +248,8 @@ class LinebotController < ApplicationController
                                     "type": "box",
                                     "layout": "horizontal",
                                     "margin": "xxl",
-                                    "contents": [
+                                    "contents":
+                                    [
                                       {
                                         "type": "text",
                                         "text": "支払い済金額",
@@ -262,12 +263,13 @@ class LinebotController < ApplicationController
                                         "color":  "#111111",
                                         "align": "end"
                                       }
-                                    ],
-                                      {
+                                    ]
+                                  },
+                                  {
                                        "type": "separator",
                                        "margin": "xxl"
                                      },
-                                      {
+                                  {
                                        "type": "box",
                                        "layout": "horizontal",
                                        "margin": "xxl",
@@ -287,7 +289,6 @@ class LinebotController < ApplicationController
                                          }
                                                     ]
                                         }
-                                   }
                                  ]
                                }
                   }
