@@ -291,7 +291,7 @@ class LinebotController < ApplicationController
             end
             bubbles = {
                         "type": "carousel",
-                        "contents": [@@contents]
+                        "contents": @@contents
                       }
             message =
                       {
