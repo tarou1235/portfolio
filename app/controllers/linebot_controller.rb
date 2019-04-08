@@ -300,7 +300,7 @@ class LinebotController < ApplicationController
               users.each do |user|
                 make_items(user,"終了")
               end
-                make_contents(,"終了")
+                make_contents("仮","終了")
                 bubble ={
                             "type": "bubble",
                             "styles": {
