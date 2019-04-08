@@ -451,8 +451,8 @@ class LinebotController < ApplicationController
   end
 
   def make_contents(user,type)
-    costs=user.costs if user.costs?
-    items=user.items if user.items?
+    costs=user.costs if user.costs
+    items=user.items if user.items
         case type
           when "確認" then
           costs.each do |cost|
@@ -536,7 +536,7 @@ class LinebotController < ApplicationController
     @@items_data=[]
     case type
     when "確認" then
-      items=obj.items if obj.items?
+      items=obj.items if obj.items
       if items then
           items.each do |item|
           @@items_data.push(
@@ -563,8 +563,8 @@ class LinebotController < ApplicationController
                   }) end
       end
     when "終了" then
-      costs=obj.costs if obj.costs?
-      items=obj.items if obj.items?
+      costs=obj.costs if obj.costs
+      items=obj.items if obj.items
       @@sum=0
       costs.each do |cost|
         @@sum -= cost.payment
