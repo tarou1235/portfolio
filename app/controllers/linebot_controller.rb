@@ -373,9 +373,18 @@ class LinebotController < ApplicationController
                                 text: "ご参加ありがとうございます。立て替え払いをされた場合は、下のメニューにてお知らせください"
                               }
                               group=Group.find_by(line_group_id:event['source']['groupId'])
-                              group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
-                              client.push_message(event['source']['userId'], message)
-
+                              if line_name(event['source']['userId']
+                                if !group.users.find_by(line_id: event['source']['userId'])
+                                  group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
+                                  client.push_message(event['source']['userId'], message)
+                                end
+                              else
+                                message = {
+                                  type: 'text',
+                                  text: "友達登録がまだの方は、まずは友達登録をお願いします"
+                                }
+                                client.push_message(event['source']['groupId'], message)
+                              end
                             when "edit"
                                 message = {
                                   type: 'text',
@@ -570,6 +579,7 @@ class LinebotController < ApplicationController
             @@sum += item.payment
           end
         end
+
       @@items_data.push(
                         {
                           "type": "box",
