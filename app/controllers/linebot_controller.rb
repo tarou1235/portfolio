@@ -272,6 +272,7 @@ class LinebotController < ApplicationController
           Group.create(line_group_id:event['source']['groupId']) if !Group.find_by(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
+          client.push_message(event['source']['groupId'], line_name(event['source']['groupId']))
         when "確認" then
             @@contents=[]
             @@items_data=[]
@@ -299,7 +300,7 @@ class LinebotController < ApplicationController
               users.each do |user|
                 make_items(user,"終了")
               end
-                make_contents(user,"終了")
+                make_contents(,"終了")
                 bubble ={
                             "type": "bubble",
                             "styles": {
