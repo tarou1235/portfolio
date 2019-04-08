@@ -141,16 +141,16 @@ class LinebotController < ApplicationController
                     [
                       {
                         "type": "text",
-                        "text": cost.name.to_s,
+                        "text": cost.name.to_s+"(立替分)",
                         "size": "sm",
                         "color":  "#555555",
                         "flex": 0
                       },
                       {
                         "type": "text",
-                        "text": -karipayment.to_s(:currency),
+                        "text": -1*karipayment.to_s(:currency),
                         "size": "sm",
-                        "color":   "#111111",
+                        "color":　"#F70713",
                         "align": "end"
                       }
                     ]
@@ -205,44 +205,11 @@ class LinebotController < ApplicationController
                                     "contents": items_columns
                                   },
                                   {
-                                        "type": "separator",
-                                        "margin": "xxl"
-                                      },
-                                  {
-                                        "type": "box",
-                                        "layout": "horizontal",
-                                        "margin": "xxl",
-                                        "contents":
-                                        [
-                                          {
-                                            "type": "text",
-                                            "text": "合計金額（負担分）",
-                                            "size": "sm",
-                                            "color": "#555555"
-                                          },
-                                          {
-                                            "type": "text",
-                                            "text": items_sum.to_s(:currency),
-                                            "size": "sm",
-                                            "color":  "#111111",
-                                            "align": "end"
-                                          }
-                                        ]
-                                   },
-                                  {
-                                    "type": "separator",
-                                    "margin": "xxl"
-                                  },
-                                  {
                                      "type": "box",
                                      "layout": "vertical",
                                      "margin": "xxl",
                                      "spacing": "sm",
                                      "contents": costs_columns
-                                   },
-                                  {
-                                    "type": "separator",
-                                    "margin": "xxl"
                                    },
                                   {
                                     "type": "box",
