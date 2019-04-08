@@ -297,6 +297,9 @@ class LinebotController < ApplicationController
                 }
                 client.push_message(event['source']['userId'], message)
                 @@destroy.destroy
+                if @@destroy
+                  @@destroy=nil
+                end
               else
                 message = {
                   type: 'text',
