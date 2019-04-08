@@ -167,8 +167,7 @@ class LinebotController < ApplicationController
                                               "separator": true
                                             }
                                  },
-                              "body":
-                              {
+                        "body": {
                                 "type": "box",
                                 "layout": "vertical",
                                 "contents":
@@ -204,7 +203,7 @@ class LinebotController < ApplicationController
                                     "margin": "xxl",
                                     "spacing": "sm",
                                     "contents": items_columns
-                                  },#金額明細
+                                  },
                                   {
                                         "type": "separator",
                                         "margin": "xxl"
@@ -230,24 +229,27 @@ class LinebotController < ApplicationController
                                           }
                                         ]
                                    },
-                                   {
+                                  {
                                     "type": "separator",
                                     "margin": "xxl"
-                                  },{
+                                  },
+                                  {
                                      "type": "box",
                                      "layout": "vertical",
                                      "margin": "xxl",
                                      "spacing": "sm",
                                      "contents": costs_columns
-                                   },{
+                                   },
+                                  {
                                     "type": "separator",
                                     "margin": "xxl"
-                                  },
+                                   },
                                   {
                                     "type": "box",
                                     "layout": "horizontal",
                                     "margin": "xxl",
-                                    "contents": [ {
+                                    "contents": [
+                                      {
                                         "type": "text",
                                         "text": "支払い済金額",
                                         "size": "sm",
@@ -264,7 +266,7 @@ class LinebotController < ApplicationController
                                        "type": "separator",
                                        "margin": "xxl"
                                      },
-                                     {
+                                      {
                                        "type": "box",
                                        "layout": "horizontal",
                                        "margin": "xxl",
@@ -283,9 +285,11 @@ class LinebotController < ApplicationController
                                          }
                                     ]
                                   }
-                                ]
-                              }
-                    }
+                                                ]
+                                   }
+                                 ]
+                               }
+                  }
           message1=
                   {
                                     "type": "flex",
