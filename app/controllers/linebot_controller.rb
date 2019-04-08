@@ -567,10 +567,10 @@ class LinebotController < ApplicationController
       items=obj.items
       @@sum=0
       costs.each do |cost|
-        @@sum -= cost
+        @@sum -= cost.payment
       end
       items.each do |item|
-        @@sum += item
+        @@sum += item.payment
       end
       @@items_data.push(
                         {
