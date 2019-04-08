@@ -5,8 +5,8 @@ class CostsController < ApplicationController
 
 
   def edit
-    cost=Cost.find(params[:id])
-    @items=cost.items
+    @cost=Cost.find(params[:id])
+    @items=@cost.items
   end
 
   def update

@@ -281,12 +281,13 @@ class LinebotController < ApplicationController
           Group.create(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
-        when "途中" then
+        when "確認" then
             @@contents=[]
+            @@items_data=[]
             group=Group.find_by(line_group_id:event['source']['groupId'])
             users=group.users.all
             users.each do |user|
-              make_contents(@@contents,user)
+              make_contents(user,"確認")
             end
             bubbles = {
                         "type": "carousel",
@@ -299,6 +300,26 @@ class LinebotController < ApplicationController
                                         "contents":bubbles
                       }
             client.push_message(event['source']['groupId'], message)
+        when "終了" then
+              @@contents=[]
+              @@items_data=[]
+              group=Group.find_by(line_group_id:event['source']['groupId'])
+              users=group.users.all
+              users.each do |user|
+                make_items(user,"終了")
+              end
+                make_contents(user,"終了")
+              bubbles = {
+                          "type": "carousel",
+                          "contents": @@contents
+                        }
+              message =
+                        {
+                                          "type": "flex",
+                                          "altText": "this is a flex message",
+                                          "contents":bubbles
+                        }
+              client.push_message(event['source']['groupId'], message)
         else
             if @@name&&@@payment then
 
@@ -420,83 +441,155 @@ class LinebotController < ApplicationController
              }
   end
 
-  def make_contents(contents,user)
+  def make_contents(user,type)
     costs=user.costs
-    costs.each do |cost|
-      make_items(cost)
-      @@contents.push({
-                  "type": "bubble",
-                  "styles": {
-                              "footer": {
-                                          "separator": true
-                                        }
-                             },
-                    "body": {
-                            "type": "box",
-                            "layout": "vertical",
-                            "contents":
-                            [
-                               {
-                                    "type": "text",
-                                    "text": cost.name,
-                                    "weight": "bold",
-                                    "size": "xxl",
-                                    "margin": "md"
-                                  },
-                              {
-                                "type": "text",
-                                "text": "支払い者  #{user.name}さん",
-                                "weight": "bold",
-                                "color": "#1DB446",
-                                "size": "sm"
-                              },
-                              {
-                                "type": "separator",
-                                "margin": "xxl"
-                              },
-                              {
+    items=user.items
+    @@sum=0
+        case type
+          when "確認" then
+          costs.each do |cost|
+            make_items(cost,"確認")
+            @@contents.push({
+                        "type": "bubble",
+                        "styles": {
+                                    "footer": {
+                                                "separator": true
+                                              }
+                                   },
+                          "body": {
+                                  "type": "box",
+                                  "layout": "vertical",
+                                  "contents":
+                                  [
+                                     {
+                                          "type": "text",
+                                          "text": cost.name,
+                                          "weight": "bold",
+                                          "size": "xxl",
+                                          "margin": "md"
+                                        },
+                                    {
+                                      "type": "text",
+                                      "text": "支払い者  #{user.name}さん",
+                                      "weight": "bold",
+                                      "color": "#1DB446",
+                                      "size": "sm"
+                                    },
+                                    {
+                                      "type": "separator",
+                                      "margin": "xxl"
+                                    },
+                                    {
+                                      "type": "box",
+                                      "layout": "vertical",
+                                      "margin": "xxl",
+                                      "spacing": "sm",
+                                      "contents": @@items_data
+                                    }
+                                   ]
+                                 }
+                    }) end
+          when "終了" then
+          @@contents.push({
+                      "type": "bubble",
+                      "styles": {
+                                  "footer": {
+                                              "separator": true
+                                            }
+                                 },
+                        "body": {
                                 "type": "box",
                                 "layout": "vertical",
-                                "margin": "xxl",
-                                "spacing": "sm",
-                                "contents": @@items_data
-                              }
-                             ]
-                           }
-              })
-    end
+                                "contents":
+                                [
+                                   {
+                                        "type": "text",
+                                        "text": "最終精算額",
+                                        "weight": "bold",
+                                        "size": "xxl",
+                                        "margin": "md"
+                                      },
+                                  {
+                                    "type": "separator",
+                                    "margin": "xxl"
+                                  },
+                                  {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "margin": "xxl",
+                                    "spacing": "sm",
+                                    "contents": @@items_data
+                                  }
+                                 ]
+                               }
+                  })
+        end
+ end
 
-  end
-
-  def make_items(cost)
-    items=cost.items
+  def make_items(obj,type)
     @@items_data=[]
-    items.each do |item|
-    @@items_data.push(
-            {
-              "type": "box",
-              "layout": "horizontal",
-              "contents":
-              [
-                {
-                  "type": "text",
-                  "text": item.user.name.to_s + "さん",
-                  "size": "sm",
-                  "color":  "#555555",
-                  "flex": 0
-                },
-                {
-                  "type": "text",
-                  "text": item.payment.to_s(:currency),
-                  "size": "sm",
-                  "color":"#555555",
-                  "align": "end"
-                }
-              ]
-            }
-                  )
+    case type
+    when "確認" then
+      items=obj.items
+      if items then
+          items.each do |item|
+          @@items_data.push(
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents":
+                    [
+                      {
+                        "type": "text",
+                        "text": item.user.name.to_s + "さん",
+                        "size": "sm",
+                        "color":  "#555555",
+                        "flex": 0
+                      },
+                      {
+                        "type": "text",
+                        "text": item.payment.to_s(:currency),
+                        "size": "sm",
+                        "color":"#555555",
+                        "align": "end"
+                      }
+                    ]
+                  }) end
+      end
+    when "終了" then
+      costs=user.costs
+      items=user.items
+      @@sum=0
+      costs.each do |cost|
+        @@sum -= cost
+      end
+      items.each do |item|
+        @@sum += item
+      end
+      @@items_data.push(
+                        {
+                          "type": "box",
+                          "layout": "horizontal",
+                          "contents":
+                          [
+                            {
+                              "type": "text",
+                              "text": user.name.to_s + "さん",
+                              "size": "sm",
+                              "color":  "#555555",
+                              "flex": 0
+                            },
+                            {
+                              "type": "text",
+                              "text": @@sum.to_s(:currency),
+                              "size": "sm",
+                              "color":"#555555",
+                              "align": "end"
+                            }
+                          ]
+                        }
+                       )
     end
-
   end
 
 
