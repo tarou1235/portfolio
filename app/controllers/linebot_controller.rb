@@ -284,7 +284,7 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['groupId'], message1)
         when "途中" then
             bubbles=[]
-            message = {
+            bubbles = {
   "type": "carousel",
   "contents": [
     {
@@ -347,6 +347,12 @@ class LinebotController < ApplicationController
     }
   ]
 }
+            message =
+                      {
+                                        "type": "flex",
+                                        "altText": "this is a flex message",
+                                        "contents":bubbles
+                      }
             client.push_message(event['source']['groupId'], message)
         else
             if @@name&&@@payment then
