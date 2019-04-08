@@ -557,8 +557,8 @@ class LinebotController < ApplicationController
                   }) end
       end
     when "終了" then
-      costs=user.costs
-      items=user.items
+      costs=obj.costs
+      items=obj.items
       @@sum=0
       costs.each do |cost|
         @@sum -= cost
@@ -574,7 +574,7 @@ class LinebotController < ApplicationController
                           [
                             {
                               "type": "text",
-                              "text": user.name.to_s + "さん",
+                              "text": obj.name.to_s + "さん",
                               "size": "sm",
                               "color":  "#555555",
                               "flex": 0
