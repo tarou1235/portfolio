@@ -96,13 +96,13 @@ class LinebotController < ApplicationController
             text: '現時点での一人あたりの負担額はこちらになります'
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @@items=user.items
-          @@sum=0
-          @@columns=[]
-          @@items.each do |item|
+          items=user.items
+          sum=0
+          columns=[]
+          items.each do |item|
           karipayment=item.payment
-          @@sum=@@sum+karipayment
-          @@columns.push(
+          sum=sum+karipayment
+          columns.push(
                   {
                     "type": "box",
                     "layout": "horizontal",
@@ -126,7 +126,7 @@ class LinebotController < ApplicationController
                   }
                         )
           end
-          @@bubble ={
+          bubble ={
                       "type": "bubble",
                       "styles": {
                                   "footer": {
@@ -169,7 +169,7 @@ class LinebotController < ApplicationController
                                     "layout": "vertical",
                                     "margin": "xxl",
                                     "spacing": "sm",
-                                    "contents": @@columns
+                                    "contents": columns
                                   },#金額明細
                                   {
                                         "type": "separator",
@@ -189,7 +189,7 @@ class LinebotController < ApplicationController
                                           },
                                           {
                                             "type": "text",
-                                            "text": @@sum.to_s(:currency),
+                                            "text": sum.to_s(:currency),
                                             "size": "sm",
                                             "color":  "#111111",
                                             "align": "end"
@@ -228,7 +228,7 @@ class LinebotController < ApplicationController
                   {
                                     "type": "flex",
                                     "altText": "this is a flex message",
-                                    "contents":@@bubble
+                                    "contents":bubble
                   }
           client.push_message(event['source']['userId'], message)
           client.push_message(event['source']['userId'], message1)
