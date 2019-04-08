@@ -4,7 +4,6 @@ class LinebotController < ApplicationController
   # callbackアクションのCSRFトークン認証を無効
   protect_from_forgery :except => [:callback]
 
- @@naiyou_flag=false
  @@name=nil
  @@payment=nil
  @@destroy=nil
@@ -45,10 +44,10 @@ class LinebotController < ApplicationController
           }
           client.push_message(event['source']['userId'], message)
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          @@costs=user.costs
-          @@columns=[]
-          @@costs.first(10).each do |cost|
-          @@columns.push(
+          costs=user.costs
+          columns=[]
+          costs.first(10).each do |cost|
+          columns.push(
               {
                 "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
                 "imageBackgroundColor": "#FFFFFF",
@@ -83,7 +82,7 @@ class LinebotController < ApplicationController
                   "altText": "this is a carousel template",
                   "template": {
                                 "type": "carousel",
-                                "columns": @@columns,
+                                "columns": columns,
                                 "imageAspectRatio": "rectangle",
                                 "imageSize": "cover"
                               }
@@ -96,13 +95,13 @@ class LinebotController < ApplicationController
             text: '現時点での一人あたりの負担額はこちらになります'
           }
           user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
+
+
           items=user.items
-          sum=0
-          columns=[]
           items.each do |item|
           karipayment=item.payment
-          sum=sum+karipayment
-          columns.push(
+          items_sum=items_sum+karipayment
+          items_columns.push(
                   {
                     "type": "box",
                     "layout": "horizontal",
@@ -126,6 +125,37 @@ class LinebotController < ApplicationController
                   }
                         )
           end
+          costs=user.costs
+          costs.each do |cost|
+          karipayment=cost.payment
+          costs_sum=costs_sum+karipayment
+          costs_columns.push(
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents":
+                    [
+                      {
+                        "type": "text",
+                        "text": cost.name.to_s,
+                        "size": "sm",
+                        "color":  "#555555",
+                        "flex": 0
+                      },
+                      {
+                        "type": "text",
+                        "text": karipayment.to_s(:currency),
+                        "size": "sm",
+                        "color":   "#111111",
+                        "align": "end"
+                      }
+                    ]
+                  }
+                        )
+          end
+
+
+
           bubble ={
                       "type": "bubble",
                       "styles": {
@@ -169,7 +199,7 @@ class LinebotController < ApplicationController
                                     "layout": "vertical",
                                     "margin": "xxl",
                                     "spacing": "sm",
-                                    "contents": columns
+                                    "contents": items_columns
                                   },#金額明細
                                   {
                                         "type": "separator",
@@ -189,34 +219,41 @@ class LinebotController < ApplicationController
                                           },
                                           {
                                             "type": "text",
-                                            "text": sum.to_s(:currency),
+                                            "text": items_sum.to_s(:currency),
                                             "size": "sm",
                                             "color":  "#111111",
                                             "align": "end"
                                           }
                                         ]
                                    },
-                                  {
+                                   {
+                                    "type": "separator",
+                                    "margin": "xxl"
+                                  },{
+                                     "type": "box",
+                                     "layout": "vertical",
+                                     "margin": "xxl",
+                                     "spacing": "sm",
+                                     "contents": costs_columns
+                                   },{
                                     "type": "separator",
                                     "margin": "xxl"
                                   },
                                   {
                                     "type": "box",
                                     "layout": "horizontal",
-                                    "margin": "md",
-                                    "contents": [
-                                      {
+                                    "margin": "xxl",
+                                    "contents": [ {
                                         "type": "text",
-                                        "text": "PAYMENT ID",
-                                        "size": "xs",
-                                        "color": "#aaaaaa",
-                                        "flex": 0
+                                        "text": "支払い済金額",
+                                        "size": "sm",
+                                        "color": "#555555"
                                       },
                                       {
                                         "type": "text",
-                                        "text": "#743289384279",
-                                        "color": "#aaaaaa",
-                                        "size": "xs",
+                                        "text": costs_sum.to_s(:currency),
+                                        "size": "sm",
+                                        "color":  "#111111",
                                         "align": "end"
                                       }
                                     ]
@@ -269,9 +306,8 @@ class LinebotController < ApplicationController
             if @@name&&@@payment then
                 @@payment=event.message['text'].to_i
                 user=User.find_by(line_id:event['source']['userId'])
-                @@cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id)
-                #user.items.create(payment:@@payment,name:@@name,paytype:"host")
-                warikan(@@cost)
+                cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id)
+                warikan(cost)
                 message = {
                   type: 'text',
                   text: 'それでは登録いたします'
@@ -317,8 +353,8 @@ class LinebotController < ApplicationController
                                 type: 'text',
                                 text: "ご参加ありがとうございます。立て替え払いをされた場合は、下のメニューにてお知らせください"
                               }
-                              @@group=Group.find_by(line_group_id:event['source']['groupId'])
-                              @@group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
+                              group=Group.find_by(line_group_id:event['source']['groupId'])
+                              group.users.create(name:line_name(event['source']['userId']),line_id: event['source']['userId'])
                               client.push_message(event['source']['userId'], message)
 
                             when "edit"
