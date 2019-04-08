@@ -76,8 +76,7 @@ class LinebotController < ApplicationController
 
 
 
-          message1=
-          {
+          message1=  {
                   "type": "template",
                   "altText": "this is a carousel template",
                   "template": {
@@ -259,7 +258,7 @@ class LinebotController < ApplicationController
             text: 'この度、会計係を務めさせていただくタグチと申します。よろしくお願いします。'
           }
           message1 =
-            {
+{
                               "type": "template",
                               "altText": "参加確認",
                               "template": {
@@ -284,6 +283,29 @@ class LinebotController < ApplicationController
           Group.create(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
+        when "途中"
+          　group=Group.find_by(line_group_id:event['source']['groupId'])
+　　　　　　users=group.users.all
+            bubbles=[]
+            bubbles.push(  "type": "carousel",
+                           "contents": [
+                                          {
+                                            "type": "bubble",
+                                            "body": {
+                                                      "type": "box",
+                                                      "layout": "vertical",
+                                                      "contents": [
+                                                                    {
+                                                                      "type": "text",
+                                                                      "text": "First bubble"
+                                                                    }
+                                                                  ]
+                                                    }
+                                          }
+                                       ]
+                         )
+            message=bubbles
+            client.push_message(event['source']['groupId'], message)
         else
             if @@name&&@@payment then
                 @@payment=event.message['text'].to_i
@@ -403,4 +425,9 @@ class LinebotController < ApplicationController
                 Item.create(payment:per_payment,cost_id:cost.id,user_id:user.id)
              }
   end
+
+
+
+
+
 end
