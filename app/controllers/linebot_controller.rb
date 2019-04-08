@@ -132,7 +132,7 @@ class LinebotController < ApplicationController
           costs_columns=[]
           costs.each do |cost|
           karipayment=cost.payment
-          costs_sum=costs_sum+karipayment
+          costs_sum=costs_sum-karipayment)
           costs_columns.push(
                   {
                     "type": "box",
@@ -148,7 +148,7 @@ class LinebotController < ApplicationController
                       },
                       {
                         "type": "text",
-                        "text": karipayment.to_s(:currency),
+                        "text": -karipayment.to_s(:currency),
                         "size": "sm",
                         "color":   "#111111",
                         "align": "end"
@@ -259,7 +259,28 @@ class LinebotController < ApplicationController
                                         "size": "sm",
                                         "color":  "#111111",
                                         "align": "end"
-                                      }
+                                      },
+                                      {
+                                       "type": "separator",
+                                       "margin": "xxl"
+                                     },
+                                     {
+                                       "type": "box",
+                                       "layout": "horizontal",
+                                       "margin": "xxl",
+                                       "contents": [ {
+                                           "type": "text",
+                                           "text": "支払い予定額合計",
+                                           "size": "sm",
+                                           "color": "#555555"
+                                         },
+                                         {
+                                           "type": "text",
+                                           "text": (costs_sum+items_sum).to_s(:currency),
+                                           "size": "sm",
+                                           "color":  "#111111",
+                                           "align": "end"
+                                         }
                                     ]
                                   }
                                 ]
