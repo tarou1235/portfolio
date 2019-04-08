@@ -257,8 +257,7 @@ class LinebotController < ApplicationController
             type: 'text',
             text: 'この度、会計係を務めさせていただくタグチと申します。よろしくお願いします。'
           }
-          message1 =
-{
+          message1 ={
                               "type": "template",
                               "altText": "参加確認",
                               "template": {
@@ -283,7 +282,7 @@ class LinebotController < ApplicationController
           Group.create(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
-        when "途中"
+        when "途中" then
             bubbles=[]
             bubbles.push(  "type": "carousel",
                            "contents": [
