@@ -6,14 +6,14 @@
       <div class="container">
       <div class ="row">
       <%= form_for(item) do |f| %>
-      <div class ="col-sm-1"><%= item.user.name %></div>
-      <div class ="col-sm-1">
+      <div class ="col-sm-3"><%= item.user.name %></div>
+      <div class ="col-sm-3">
       <%= f.label :"支払額" %>
       </div>
-      <div class ="col-sm-1">
+      <div class ="col-sm-3">
         <%= f.number_field :payment, class: 'form-control',:size=>"20" %>
       </div>
-      <div class ="col-sm-1">
+      <div class ="col-sm-3">
         <%= f.submit "変更", class: "btn btn-primary" %>
       </div>
       </div>
