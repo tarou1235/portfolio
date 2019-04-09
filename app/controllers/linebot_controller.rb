@@ -34,7 +34,7 @@ class LinebotController < ApplicationController
             @@destroy=nil
             message = {
               type: 'text',
-              text: '立て替えた内容を教えていただけますか'
+              text: '立て替えた内容を教えていただけますか(例:バーベキュー代)'
             }
             client.push_message(event['source']['userId'], message)
             @@name="仮"
@@ -267,14 +267,35 @@ class LinebotController < ApplicationController
                                   ]
                               }
              }
-             message2 = {
-               type: 'text',
-               text: line_name(event['source']['groupId'])
+          Group.create(line_group_id:event['source']['groupId']) if !Group.find_by(line_group_id:event['source']['groupId'])
+          client.push_message(event['source']['groupId'], message)
+          client.push_message(event['source']['groupId'], message1)
+        when "削除" then
+          message ={
+                              "type": "template",
+                              "altText": "削除確認",
+                              "template": {
+                                  "type": "confirm",
+                                  "text": "精算データ等、確認できなくなりますが削除しても大丈夫ですか？",
+                                  "actions": [
+                                      {
+                                        "type": "postback",
+                                        "data":"group_destroy",
+                                        "label": "はい",
+                                        "displayText": "はい"
+                                      },
+                                      {
+                                        "type": "postback",
+                                        "data":"nothing",
+                                        "label": "いいえ",
+                                        "displayText": "いいえ"
+                                      }
+                                  ]
+                              }
              }
           Group.create(line_group_id:event['source']['groupId']) if !Group.find_by(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
           client.push_message(event['source']['groupId'], message1)
-          client.push_message(event['source']['groupId'], message2)
         when "確認" then
             @@contents=[]
               group=Group.find_by(line_group_id:event['source']['groupId'])
@@ -347,26 +368,16 @@ class LinebotController < ApplicationController
                 #warikan(cost)
                 message = {
                   type: 'text',
-                  text: '画像を送付してください'
+                  text: 'レシートや領収書の画像を送付してください。（最大ファイルサイズ1000×1000）'
                 }
                 client.push_message(event['source']['userId'], message)
-                #user=User.find_by(line_id:event['source']['userId'])
-                #cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id)
-                #warikan(cost)
-                #message = {
-                  #type: 'text',
-                  #text: 'それでは登録いたします'
-                #}
-                #client.push_message(event['source']['userId'], message)
-                #@@payment=nil
-                #@@name=nil
             end
 
             if @@name&&!@@payment&&!@@image then
               @@name=event.message['text']
                 message = {
                   type: 'text',
-                  text: '続いて、支払い金額を教えていただけますか'
+                  text: '続いて、支払い金額を教えていただけますか(例：3000)'
                 }
               client.push_message(event['source']['userId'], message)
               @@payment=0
@@ -450,6 +461,20 @@ class LinebotController < ApplicationController
                                         text: "承知いたしました"
                                       }
                                       client.push_message(event['source']['userId'], message)
+                            when "group_destroy"
+                                      group=Group.find_by(line_group_id:event['source']['groupId'])
+                                      group.destroy
+                                      message = {
+                                                type: 'text',
+                                                text: "削除いたしました。本日はありがとうございました"
+                                              　}
+                                      client.push_message(event['source']['userId'], message)
+                                      message2 = {
+                                                type: 'text',
+                                                text: "最後に宣伝です。これ買ってください。原価率40000％くらい。さよなら
+                                                https://store.line.me/stickershop/product/1377752/ja"
+                                              　}
+                                      client.push_message(event['source']['userId'], message2)
                           end
                 }
       end
@@ -519,6 +544,7 @@ class LinebotController < ApplicationController
                                                   "text": cost.name,
                                                   "weight": "bold",
                                                   "size": "lg",
+                                                  "color":  "#111111",
                                                   "margin": "sm"
                                                 },
                                                 {
@@ -540,7 +566,7 @@ class LinebotController < ApplicationController
                                         {
                                              "type": "box",
                                              "layout": "horizontal",
-                                             "margin": "sm",
+                                             "margin": "md",
                                              "contents": [
                                                {
                                                  "type": "text",
