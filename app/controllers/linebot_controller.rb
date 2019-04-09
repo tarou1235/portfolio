@@ -8,7 +8,7 @@ class LinebotController < ApplicationController
  @@payment=nil
  @@image=nil
  @@destroy=nil
-
+ 
   def client
         @@client ||= Line::Bot::Client.new { |config|
           config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
@@ -356,10 +356,10 @@ class LinebotController < ApplicationController
         else
           if @@name&&@@payment&&@@image then
               @@image="#{SecureRandom.uuid}.jpg"
-              image_response = client.get_message_content(event.message['id'])
+              image_response = client.get_message_content(event.message['id']) if event['source']['type']=="user"
               tf = File.open("#{Rails.public_path}/#{@@image}", "w+b")
               tf.write(image_response.body)
-              user=User.find_by(line_id:event['source']['userId'])
+              user=User.find_by(line_id:event['source']['userId']) if event['source']['type']=="user"
               cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id,image_name: @@image)
               group=user.group
               warikan(cost)
@@ -380,7 +380,7 @@ class LinebotController < ApplicationController
 
             if @@name&&@@payment&&!@@image then
 
-                @@payment=event.message['text'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z').gsub(/[^\d]/, "").to_i #半角にして、数字のみ抽出
+                @@payment=event.message['text'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z').gsub(/[^\d]/, "").to_i  if event['source']['type']=="user"
                 @@image="仮"
                 #warikan(cost)
                 message = {
@@ -391,7 +391,7 @@ class LinebotController < ApplicationController
             end
 
             if @@name&&!@@payment&&!@@image then
-              @@name=event.message['text']
+              @@name=event.message['text'] if event['source']['type']=="user"
                 message = {
                   type: 'text',
                   text: '続いて、支払い金額を教えていただけますか(例：3000)'
