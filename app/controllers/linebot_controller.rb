@@ -6,6 +6,7 @@ class LinebotController < ApplicationController
 
  @@name=nil
  @@payment=nil
+ @@image=nil
  @@destroy=nil
 
   def client
@@ -321,22 +322,40 @@ class LinebotController < ApplicationController
                         }
               client.push_message(event['source']['groupId'], message)
         else
-            if @@name&&@@payment then
+          if @@name&&@@payment&&@@image then
+              @@image=SecureRandom.uuid
+              image_response = client.get_message_content(event.message['id'])
+              File.binwrite("public/cost_images/#{@@image}", image_response.body)
+              user=User.find_by(line_id:event['source']['userId'])
+              cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id,image_name: @@image)
+              warikan(cost)
+              message = {
+                type: 'text',
+                text: 'それでは登録いたします'
+              }
+              client.push_message(event['source']['userId'], message)
+              @@payment=nil
+              @@name=nil
+              @@image=nil
+          end
+
+            if @@name&&@@payment&&!@@image then
 
                 @@payment=event.message['text'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z').gsub(/[^\d]/, "").to_i #半角にして、数字のみ抽出
-                user=User.find_by(line_id:event['source']['userId'])
-                cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id)
-                warikan(cost)
-                message = {
-                  type: 'text',
-                  text: 'それでは登録いたします'
-                }
-                client.push_message(event['source']['userId'], message)
-                @@payment=nil
-                @@name=nil
+                @@image="仮"
+                #user=User.find_by(line_id:event['source']['userId'])
+                #cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id)
+                #warikan(cost)
+                #message = {
+                  #type: 'text',
+                  #text: 'それでは登録いたします'
+                #}
+                #client.push_message(event['source']['userId'], message)
+                #@@payment=nil
+                #@@name=nil
             end
 
-            if @@name&&!@@payment then
+            if @@name&&!@@payment!@@image then
               @@name=event.message['text']
                 message = {
                   type: 'text',
