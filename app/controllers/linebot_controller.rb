@@ -532,13 +532,13 @@ class LinebotController < ApplicationController
                                         {
                                           "type": "box",
                                           "layout": "vertical",
-                                          "margin": "xxl",
+                                          "margin": "md",
                                           "spacing": "sm",
                                           "contents": @@items_data
                                         },
                                         {
                                           "type": "separator",
-                                          "margin": "xxl"
+                                          "margin": "md"
                                         },
                                         {
                                              "type": "box",
