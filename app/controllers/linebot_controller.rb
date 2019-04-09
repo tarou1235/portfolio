@@ -508,10 +508,6 @@ class LinebotController < ApplicationController
                                                                    "size": "xxl",
                                                                    "margin": "md"
                                                                  },
-                                                                 {
-                                                                   "type": "separator",
-                                                                   "margin": "sm"
-                                                                 },
                                                              {
                                                                "type": "text",
                                                                "text": "支払い者  #{user.name}さん",
@@ -542,7 +538,7 @@ class LinebotController < ApplicationController
                                         },
                                         {
                                           "type": "separator",
-                                          "margin": "sm"
+                                          "margin": "xxl"
                                         },
                                         {
                                              "type": "box",
