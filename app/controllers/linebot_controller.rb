@@ -275,7 +275,7 @@ class LinebotController < ApplicationController
           client.push_message(event['source']['groupId'], message1)
           client.push_message(event['source']['groupId'], message2)
         when "確認" then
-            contents=[]
+            @@contents=[]
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
@@ -283,7 +283,7 @@ class LinebotController < ApplicationController
               end
              bubbles = {
                         "type": "carousel",
-                        "contents": contents
+                        "contents": @@contents
                       }
             message =
                       {
@@ -293,8 +293,8 @@ class LinebotController < ApplicationController
                       }
             client.push_message(event['source']['groupId'], message)
         when "終了" then
-              contents=[]
-              items_data=[]
+              @@contents=[]
+              @@items_data=[]
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
@@ -463,7 +463,7 @@ class LinebotController < ApplicationController
             costs=user.costs
             costs.each do |cost|
               make_items(cost,"確認")
-                 contents.push({
+                 @@contents.push({
                             "type": "bubble",
                             "styles": {
                                         "footer": {
@@ -498,7 +498,7 @@ class LinebotController < ApplicationController
                                           "layout": "vertical",
                                           "margin": "xxl",
                                           "spacing": "sm",
-                                          "contents": items_data
+                                          "contents": @@items_data
                                         }
                                        ]
                                      }
@@ -523,7 +523,7 @@ class LinebotController < ApplicationController
               "layout": "vertical",
               "margin": "xxl",
               "spacing": "sm",
-              "contents": items_data
+              "contents": @@items_data
             },
             {
                  "type": "separator",
@@ -543,7 +543,7 @@ class LinebotController < ApplicationController
   def make_items(obj,type)
     case type
     when "確認" then
-      items_data=[]
+      @@items_data=[]
       if obj.items
           items=obj.items
           items.each do |item|
@@ -585,7 +585,7 @@ class LinebotController < ApplicationController
             sum += item.payment
           end
         end
-       items_data.push(
+       @@items_data.push(
                         {
                           "type": "box",
                           "layout": "horizontal",
