@@ -298,7 +298,7 @@ class LinebotController < ApplicationController
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
-                text +="#{user}\n" if user
+                text +="#{user.name}\n" if user
               end
             message ={
                           type: 'text',
