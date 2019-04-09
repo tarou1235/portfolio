@@ -7,12 +7,13 @@ class CostsController < ApplicationController
   def edit
     @cost=Cost.find(params[:id])
     @items=@cost.items
+
   end
 
   def update
     @cost=Cost.find(params[:id])
     if @cost.update_attributes(cost_params)
-       redirect_to cost_url
+      
     else
 
     end

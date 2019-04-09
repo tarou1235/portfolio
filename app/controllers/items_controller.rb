@@ -7,7 +7,9 @@ class ItemsController < ApplicationController
   def update
     @item=Item.find(params[:id])
     if @item.update_attributes(item_params)
-       redirect_to items_url
+       cost=@item.cost
+       flash[:success] = "更新しました"
+       redirect_to "/costs/#{cost.id}/edit"
     else
 
     end

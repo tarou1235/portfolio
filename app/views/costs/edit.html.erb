@@ -4,26 +4,23 @@
 
     <h2>
 
-    <% @items.each do |item| %>
-
-      <%= form_for(item) do |f| %>
-      <div class="container">
-      <div class ="row">
-      <div class ="col-xs-3"><%= item.user.name %></div>
-      <div class ="col-xs-3">
-      <%= f.label :"支払額" %>
-      </div>
-      <div class ="col-xs-3">
-        <%= f.text_field :payment, class: 'form-control',:size=>"20" ,data: {autonumeric:{mDec:0} } %>
-      </div>
-      <div class ="col-xs-3">
-        <%= f.submit "変更", class: "btn btn-primary" %>
-      </div>
-      </div>
-      </div>
+      <% @items.each do |item| %>
+          <%= form_for(item) do |f| %>
+          <div class="container">
+          <div class ="row">
+          <div class ="col-xs-3"><%= item.user.name %></div>
+          <div class ="col-xs-3">
+          <%= f.label :"支払額" %>
+          </div>
+          <div class ="col-xs-3">
+            <%= f.text_field :payment, class: 'form-control',:size=>"20" ,data: {autonumeric:{mDec:0} } %>
+          </div>
+          <div class ="col-xs-3">
+            <%= f.submit "変更", class: "btn btn-primary" %>
+          </div>
+          </div>
+          </div>
       <% end %>
-
-
     <% end %>
     </h2>
   </div>
