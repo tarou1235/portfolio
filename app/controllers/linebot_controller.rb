@@ -499,14 +499,43 @@ class LinebotController < ApplicationController
                                           "margin": "xxl",
                                           "spacing": "sm",
                                           "contents": @@items_data
+                                        },
+                                        {
+                                          "type": "separator",
+                                          "margin": "xxl"
+                                        },
+                                        {
+                                             "type": "box",
+                                             "layout": "horizontal",
+                                             "margin": "xxl",
+                                             "contents": [
+                                               {
+                                                 "type": "text",
+                                                 "text": "合計",
+                                                 "size": "md",
+                                                 "weight": "bold",
+                                                 "color":  "#555555"
+                                               },
+                                               {
+                                                 "type": "text",
+                                                 "text": cost.payment,
+                                                 "size": "md",
+                                                 "weight": "bold",
+                                                 "color":  "#111111",
+                                                 "align": "end"
+                                               }
+                                                          ]
                                         }
+
+
+
                                        ]
                                      }
                                   })
             end
           end
           when "終了" then
-          contents.push(
+          @@contents.push(
             {
               "type": "text",
               "text": "最終精算額",
@@ -569,6 +598,7 @@ class LinebotController < ApplicationController
                       }
                     ]
                   }) end
+
       end
     when "終了" then
       sum=0
