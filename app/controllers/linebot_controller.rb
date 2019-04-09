@@ -498,7 +498,7 @@ class LinebotController < ApplicationController
                                        },
                                        "header": {
                                                      "type": "box",
-                                                     "layout": "horizontal",
+                                                     "layout": "vertical",
                                                      "contents":
                                                      [
                                                                 {
@@ -510,7 +510,7 @@ class LinebotController < ApplicationController
                                                                  },
                                                                  {
                                                                    "type": "separator",
-                                                                   "margin": "xxl"
+                                                                   "margin": "sm"
                                                                  },
                                                              {
                                                                "type": "text",
@@ -542,12 +542,12 @@ class LinebotController < ApplicationController
                                         },
                                         {
                                           "type": "separator",
-                                          "margin": "xxl"
+                                          "margin": "sm"
                                         },
                                         {
                                              "type": "box",
                                              "layout": "horizontal",
-                                             "margin": "xxl",
+                                             "margin": "sm",
                                              "contents": [
                                                {
                                                  "type": "text",
