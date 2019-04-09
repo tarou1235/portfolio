@@ -449,10 +449,12 @@ class LinebotController < ApplicationController
    per_payment=cost.payment/users.count
    sabun=cost.payment-per_payment*users.count
    users.each{|user|
-                Item.create(payment:per_payment,cost_id:cost.id,user_id:user.id)
+                if user=users.first then
+                  Item.create(payment:per_payment+sabun,cost_id:cost.id,user_id:user.id)
+                else
+                  Item.create(payment:per_payment,cost_id:cost.id,user_id:user.id)
+                end
              }
-   item=Item.find_by(cost_id:cost.id,user_id:users.first.id)
-   item.payment=per_payment+sabun
   end
 
   def make_contents(user,type)
