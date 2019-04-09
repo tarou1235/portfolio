@@ -466,12 +466,13 @@ class LinebotController < ApplicationController
                                                 type: 'text',
                                                 text: "削除いたしました。本日はありがとうございました"
                                                 }
-                                      client.push_message(event['source']['userId'], message)
+                                      client.push_message(event['source']['groupId'], message)
                                       message2 = {
                                                 type: 'text',
-                                                text: "最後に宣伝です。これ買ってください。原価率40000％くらい。さよならhttps://store.line.me/stickershop/product/1377752/ja"
+                                                text: "最後に宣伝です。これ買ってください。原価率40000％くらい。さよなら
+                                                https://store.line.me/stickershop/product/1377752/ja"
                                               }
-                                      client.push_message(event['source']['userId'], message2)
+                                      client.push_message(event['source']['groupId'], message2)
                           end
                 }
       end
