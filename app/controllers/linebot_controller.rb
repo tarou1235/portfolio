@@ -496,26 +496,40 @@ class LinebotController < ApplicationController
                                                     "separator": true
                                                   }
                                        },
-                             "body": {
+                                       "header": {
+                                                     "type": "box",
+                                                     "layout": "horizontal",
+                                                     "contents":
+                                                     [
+                                                                {
+                                                                   "type": "text",
+                                                                   "text": cost.name,
+                                                                   "weight": "bold",
+                                                                   "size": "xxl",
+                                                                   "margin": "md"
+                                                                 },
+                                                             {
+                                                               "type": "text",
+                                                               "text": "支払い者  #{user.name}さん",
+                                                               "weight": "bold",
+                                                               "color": "#1DB446",
+                                                               "size": "sm"
+                                                             }
+                                                     ]
+                                                   },
+                                                   "hero": {
+                                                            "type": "image",
+                                                            "url": "https://tagu2.herokuapp.com/#{cost.image_name}",
+                                                            "size": "full",
+                                                            "aspectRatio": "1:1",
+                                                            "aspectMode": "cover",
+                                                          },
+                               "body": {
                                       "type": "box",
                                       "layout": "vertical",
                                       "contents":
                                       [
 
-                                            {
-                                              "type": "text",
-                                              "text": cost.name,
-                                              "weight": "bold",
-                                              "size": "xxl",
-                                              "margin": "md"
-                                            },
-                                        {
-                                          "type": "text",
-                                          "text": "支払い者  #{user.name}さん",
-                                          "weight": "bold",
-                                          "color": "#1DB446",
-                                          "size": "sm"
-                                        },
                                         {
                                           "type": "separator",
                                           "margin": "xxl"
@@ -550,15 +564,6 @@ class LinebotController < ApplicationController
                                                  "weight": "bold",
                                                  "color":  "#111111",
                                                  "align": "end"
-                                               },
-                                               {
-                                                 "type": "separator",
-                                                 "margin": "xs"
-                                               },
-                                               {
-                                                 "type": "image",
-                                                 "url": "https://tagu2.herokuapp.com/#{cost.image_name}",
-                                                 "size": "full"
                                                }
                                                           ]
                                         }
