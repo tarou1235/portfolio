@@ -501,20 +501,21 @@ class LinebotController < ApplicationController
                                                      "layout": "vertical",
                                                      "contents":
                                                      [
+                                                       {
+                                                         "type": "text",
+                                                         "text": "支払い者  #{user.name}さん",
+                                                         "weight": "bold",
+                                                         "color": "#1DB446",
+                                                         "size": "sm"
+                                                       },
                                                                 {
                                                                    "type": "text",
                                                                    "text": cost.name,
                                                                    "weight": "bold",
-                                                                   "size": "xxl",
+                                                                   "size": "xl",
                                                                    "margin": "md"
-                                                                 },
-                                                             {
-                                                               "type": "text",
-                                                               "text": "支払い者  #{user.name}さん",
-                                                               "weight": "bold",
-                                                               "color": "#1DB446",
-                                                               "size": "sm"
-                                                             }
+                                                                 }
+
                                                      ]
                                                    },
                                                    "hero": {
@@ -532,7 +533,7 @@ class LinebotController < ApplicationController
                                         {
                                           "type": "box",
                                           "layout": "vertical",
-                                          "margin": "md",
+                                          "margin": "none",
                                           "spacing": "sm",
                                           "contents": @@items_data
                                         },
@@ -598,6 +599,7 @@ class LinebotController < ApplicationController
                                   "type": "text",
                                   "text": "※マイナスの場合はお金をもらってください",
                                   "size": "xs",
+                                  "margin": "xxl",
                                   "color": "#aaaaaa",
                                   "wrap": true
             }
