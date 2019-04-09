@@ -299,11 +299,11 @@ class LinebotController < ApplicationController
               users=group.users.all
               text=""
               users.each do |user|
-                text +="#{user.name}\n" if user
+                text +="\n#{user.name}さん" if user
               end
             message ={
                           type: 'text',
-                          text: "現在の参加者は以下の方です\n  #{text}"
+                          text: "現在の参加者は以下の方です#{text}"
                      }
             client.push_message(event['source']['groupId'], message)
        when "確認" then
