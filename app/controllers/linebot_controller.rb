@@ -294,11 +294,10 @@ class LinebotController < ApplicationController
                               }
              }
           client.push_message(event['source']['groupId'], message)
-        when "参加者" then
+        when "参加者"then
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
-              if user
                 text +="#{user}\n"
               end
             message ={
@@ -306,7 +305,7 @@ class LinebotController < ApplicationController
                           text: "現在の参加者は以下の方です\n  #{text}"
                      }
             client.push_message(event['source']['groupId'], message)
-        when "確認" then
+       when "確認" then
             @@contents=[]
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
