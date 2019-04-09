@@ -303,7 +303,7 @@ class LinebotController < ApplicationController
               end
             message ={
                           type: 'text',
-                          text: "現在の参加者は以下の方です#{text}"
+                          text: "現在の参加者は以下の方です\n#{text}"
                      }
             client.push_message(event['source']['groupId'], message)
        when "確認" then
@@ -366,6 +366,11 @@ class LinebotController < ApplicationController
                 text: 'それでは登録いたします'
               }
               client.push_message(event['source']['userId'], message)
+              message2 = {
+                type: 'text',
+                text: "#{user}さんが#{cost} (#{cost.payment.to_s(:currency)})を立て替えました"
+              }
+              client.push_message(event['source']['groupId'], message2)
               @@payment=nil
               @@name=nil
               @@image=nil
@@ -554,7 +559,7 @@ class LinebotController < ApplicationController
                                                   "type": "text",
                                                   "text": cost.name,
                                                   "weight": "bold",
-                                                  "size": "lg",
+                                                  "size": "xl",
                                                   "color":  "#111111",
                                                   "margin": "sm"
                                                 },
