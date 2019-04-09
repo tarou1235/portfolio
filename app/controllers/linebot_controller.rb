@@ -360,17 +360,17 @@ class LinebotController < ApplicationController
               tf.write(image_response.body)
               user=User.find_by(line_id:event['source']['userId'])
               cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id,image_name: @@image)
+              message2 = {
+                type: 'text',
+                text: "#{user}さんが#{cost} (#{cost.payment.to_s(:currency)})を立て替えました"
+              }
+              client.push_message(event['source']['groupId'], message2)
               warikan(cost)
               message = {
                 type: 'text',
                 text: 'それでは登録いたします'
               }
               client.push_message(event['source']['userId'], message)
-              message2 = {
-                type: 'text',
-                text: "#{user}さんが#{cost} (#{cost.payment.to_s(:currency)})を立て替えました"
-              }
-              client.push_message(event['source']['groupId'], message2)
               @@payment=nil
               @@name=nil
               @@image=nil
