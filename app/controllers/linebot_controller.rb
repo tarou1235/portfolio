@@ -50,7 +50,7 @@ class LinebotController < ApplicationController
           costs.first(10).each do |cost|
           columns.push(
               {
-                "thumbnailImageUrl": "https://example.com/bot/images/item1.jpg",
+                "thumbnailImageUrl": "https://tagu2.herokuapp.com/#{cost.image_name}",
                 "imageBackgroundColor": "#FFFFFF",
                 "title": cost.name,
                 "text":  cost.payment.to_s(:currency),
