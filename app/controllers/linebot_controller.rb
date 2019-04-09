@@ -508,6 +508,10 @@ class LinebotController < ApplicationController
                                                                    "size": "xxl",
                                                                    "margin": "md"
                                                                  },
+                                                                 {
+                                                                   "type": "separator",
+                                                                   "margin": "xxl"
+                                                                 },
                                                              {
                                                                "type": "text",
                                                                "text": "支払い者  #{user.name}さん",
@@ -521,7 +525,7 @@ class LinebotController < ApplicationController
                                                             "type": "image",
                                                             "url": "https://tagu2.herokuapp.com/#{cost.image_name}",
                                                             "size": "full",
-                                                            "aspectRatio": "1:1",
+                                                            "aspectRatio": "2:1",
                                                             "aspectMode": "cover",
                                                           },
                                "body": {
@@ -529,11 +533,6 @@ class LinebotController < ApplicationController
                                       "layout": "vertical",
                                       "contents":
                                       [
-
-                                        {
-                                          "type": "separator",
-                                          "margin": "xxl"
-                                        },
                                         {
                                           "type": "box",
                                           "layout": "vertical",
