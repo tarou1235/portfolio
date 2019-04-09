@@ -87,8 +87,7 @@ class LinebotController < ApplicationController
 
         when "支払い" then
             user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-          items_columns=[]
-          costs_columns=[]
+          columns=[]
           if user.items then
           items=user.items
             items_sum=0
@@ -96,7 +95,7 @@ class LinebotController < ApplicationController
             items.each do |item|
             karipayment=item.payment
             items_sum=items_sum+karipayment
-            items_columns.push(
+            columns.push(
                     {
                       "type": "box",
                       "layout": "horizontal",
@@ -127,7 +126,7 @@ class LinebotController < ApplicationController
             costs.each do |cost|
             karipayment=-cost.payment
             costs_sum=costs_sum+karipayment
-            costs_columns.push(
+            columns.push(
                     {
                       "type": "box",
                       "layout": "horizontal",
@@ -194,15 +193,8 @@ class LinebotController < ApplicationController
                                     "layout": "vertical",
                                     "margin": "xxl",
                                     "spacing": "sm",
-                                    "contents": items_columns
+                                    "contents": columns
                                   },
-                                  {
-                                     "type": "box",
-                                     "layout": "vertical",
-                                     "margin": "xxl",
-                                     "spacing": "sm",
-                                     "contents": costs_columns
-                                   },
                                   {
                                        "type": "separator",
                                        "margin": "xxl"
