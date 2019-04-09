@@ -514,17 +514,21 @@ class LinebotController < ApplicationController
                                         "color": "#1DB446",
                                         "size": "sm"
                                       },
+                                      {
+                                        "type": "separator",
+                                        "margin": "md"
+                                      },
                                                {
                                                   "type": "text",
                                                   "text": cost.name,
                                                   "weight": "bold",
-                                                  "size": "xl",
-                                                  "margin": "md"
+                                                  "size": "md",
+                                                  "margin": "sm"
                                                 },
                                         {
                                           "type": "box",
                                           "layout": "vertical",
-                                          "margin": "none",
+                                          "margin": "md",
                                           "spacing": "sm",
                                           "contents": @@items_data
                                         },
