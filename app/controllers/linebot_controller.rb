@@ -87,9 +87,12 @@ class LinebotController < ApplicationController
 
         when "支払い" then
             user=User.find_by(line_id:event['source']['userId'])#user_id:event['source']['userId']
-            items=user.items
+          items_columns=[]
+          costs_columns=[]
+          if user.items then
+          items=user.items
             items_sum=0
-            items_columns=[]
+
             items.each do |item|
             karipayment=item.payment
             items_sum=items_sum+karipayment
@@ -116,36 +119,38 @@ class LinebotController < ApplicationController
                       ]
                     }
                           )
+            end
           end
-          costs=user.costs
-          costs_sum=0
-          costs_columns=[]
-          costs.each do |cost|
-          karipayment=-cost.payment
-          costs_sum=costs_sum+karipayment
-          costs_columns.push(
-                  {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "contents":
-                    [
-                      {
-                        "type": "text",
-                        "text": cost.name.to_s + "(立替分)",
-                        "size": "sm",
-                        "color":  "#555555",
-                        "flex": 0
-                      },
-                      {
-                        "type": "text",
-                        "text": karipayment.to_s(:currency),
-                        "size": "sm",
-                        "color":"#f90909",
-                        "align": "end"
-                      }
-                    ]
-                  }
-                        )
+          if user.costs then
+            costs=user.costs
+            costs_sum=0
+            costs.each do |cost|
+            karipayment=-cost.payment
+            costs_sum=costs_sum+karipayment
+            costs_columns.push(
+                    {
+                      "type": "box",
+                      "layout": "horizontal",
+                      "contents":
+                      [
+                        {
+                          "type": "text",
+                          "text": cost.name.to_s + "(立替分)",
+                          "size": "sm",
+                          "color":  "#555555",
+                          "flex": 0
+                        },
+                        {
+                          "type": "text",
+                          "text": karipayment.to_s(:currency),
+                          "size": "sm",
+                          "color":"#f90909",
+                          "align": "end"
+                        }
+                      ]
+                    }
+                          )
+                        end
           end
           bubble ={
                       "type": "bubble",
