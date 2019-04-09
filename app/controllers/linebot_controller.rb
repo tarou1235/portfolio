@@ -276,7 +276,7 @@ class LinebotController < ApplicationController
                               "altText": "削除確認",
                               "template": {
                                   "type": "confirm",
-                                  "text": "精算データ等、確認できなくなりますが削除しても大丈夫ですか？",
+                                  "text": "精算データ等、今後確認できなくなりますが削除してもよろしいでしょうか？",
                                   "actions": [
                                       {
                                         "type": "postback",
@@ -298,18 +298,13 @@ class LinebotController < ApplicationController
               group=Group.find_by(line_group_id:event['source']['groupId'])
               users=group.users.all
               users.each do |user|
-              make_contents(user,"確認") if user
+              if user
+                text +="#{user}\n"
               end
-             bubbles = {
-                        "type": "carousel",
-                        "contents": @@contents
-                      }
-            message =
-                      {
-                                        "type": "flex",
-                                        "altText": "this is a flex message",
-                                        "contents":bubbles
-                      }
+            message ={
+                          type: 'text',
+                          text: "現在の参加者は以下の方です\n  #{text}"
+                     }
             client.push_message(event['source']['groupId'], message)
         when "確認" then
             @@contents=[]
@@ -486,7 +481,7 @@ class LinebotController < ApplicationController
                                       client.push_message(event['source']['groupId'], message)
                                       message2 = {
                                                 type: 'text',
-                                                text: "最後に宣伝です、これ買ってください。原価率40000%くらい。さよなら
+                                                text: "最後に宣伝です、これ買ってください。原価率4000%くらい。さよなら
                                                 https://store.line.me/stickershop/product/1377752/ja"
                                               }
                                       client.push_message(event['source']['groupId'], message2)
