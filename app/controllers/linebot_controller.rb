@@ -323,7 +323,7 @@ class LinebotController < ApplicationController
               client.push_message(event['source']['groupId'], message)
         else
           if @@name&&@@payment&&@@image then
-              @@image=SecureRandom.uuid
+              @@image="#{SecureRandom.uuid}.jpg"
               image_response = client.get_message_content(event.message['id'])
               File.binwrite("public/cost_images/#{@@image}", image_response.body)
               user=User.find_by(line_id:event['source']['userId'])
