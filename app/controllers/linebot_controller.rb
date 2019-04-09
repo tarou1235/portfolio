@@ -325,7 +325,7 @@ class LinebotController < ApplicationController
           if @@name&&@@payment&&@@image then
               @@image="#{SecureRandom.uuid}.jpg"
               image_response = client.get_message_content(event.message['id'])
-              tf = File.open("#{Rails.public_path}/cost_images/#{@@image}", "w+b")
+              tf = File.open("#{Rails.public_path}/#{@@image}", "w+b")
               tf.write(image_response.body)
               user=User.find_by(line_id:event['source']['userId'])
               cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id,image_name: @@image)
