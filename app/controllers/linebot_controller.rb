@@ -518,7 +518,7 @@ class LinebotController < ApplicationController
                                                },
                                                {
                                                  "type": "text",
-                                                 "text": cost.payment,
+                                                 "text": cost.payment.to_s(:currency),
                                                  "size": "md",
                                                  "weight": "bold",
                                                  "color":  "#111111",
