@@ -504,7 +504,7 @@ class LinebotController < ApplicationController
                                         {
                                           "type": "image",
                                           "url": "https://tagu2.herokuapp.com/#{cost.image_name}",
-                                          "size": "md"
+                                          "size": "full"
                                         },
                                             {
                                               "type": "text",
