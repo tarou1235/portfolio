@@ -293,9 +293,7 @@ class LinebotController < ApplicationController
                                   ]
                               }
              }
-          Group.create(line_group_id:event['source']['groupId']) if !Group.find_by(line_group_id:event['source']['groupId'])
           client.push_message(event['source']['groupId'], message)
-          client.push_message(event['source']['groupId'], message1)
         when "確認" then
             @@contents=[]
               group=Group.find_by(line_group_id:event['source']['groupId'])
