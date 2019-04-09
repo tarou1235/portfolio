@@ -514,17 +514,18 @@ class LinebotController < ApplicationController
                                         "color": "#1DB446",
                                         "size": "sm"
                                       },
-                                      {
-                                        "type": "separator",
-                                        "margin": "md"
-                                      },
-                                               {
+                                       {
                                                   "type": "text",
                                                   "text": cost.name,
                                                   "weight": "bold",
-                                                  "size": "md",
+                                                  "size": "lg",
                                                   "margin": "sm"
                                                 },
+                                                {
+                                                  "type": "separator",
+                                                  "margin": "md"
+                                                },
+
                                         {
                                           "type": "box",
                                           "layout": "vertical",
