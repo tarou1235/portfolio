@@ -496,40 +496,31 @@ class LinebotController < ApplicationController
                                                     "separator": true
                                                   }
                                        },
-                                       "header": {
-                                                     "type": "box",
-                                                     "layout": "vertical",
-                                                     "contents":
-                                                     [
-                                                       {
-                                                         "type": "text",
-                                                         "text": "支払い者  #{user.name}さん",
-                                                         "weight": "bold",
-                                                         "color": "#1DB446",
-                                                         "size": "sm"
-                                                       },
-                                                                {
-                                                                   "type": "text",
-                                                                   "text": cost.name,
-                                                                   "weight": "bold",
-                                                                   "size": "xl",
-                                                                   "margin": "md"
-                                                                 }
-
-                                                     ]
-                                                   },
                                                    "hero": {
                                                             "type": "image",
                                                             "url": "https://tagu2.herokuapp.com/#{cost.image_name}",
                                                             "size": "full",
-                                                            "aspectRatio": "2:1",
+                                                            "aspectRatio": "3:2",
                                                             "aspectMode": "cover",
                                                           },
                                "body": {
                                       "type": "box",
                                       "layout": "vertical",
                                       "contents":
-                                      [
+                                      [{
+                                        "type": "text",
+                                        "text": "支払い者  #{user.name}さん",
+                                        "weight": "bold",
+                                        "color": "#1DB446",
+                                        "size": "sm"
+                                      },
+                                               {
+                                                  "type": "text",
+                                                  "text": cost.name,
+                                                  "weight": "bold",
+                                                  "size": "xl",
+                                                  "margin": "md"
+                                                },
                                         {
                                           "type": "box",
                                           "layout": "vertical",
@@ -599,7 +590,7 @@ class LinebotController < ApplicationController
                                   "type": "text",
                                   "text": "※マイナスの場合はお金をもらってください",
                                   "size": "xs",
-                                  "margin": "xxl",
+                                  "margin": "md",
                                   "color": "#aaaaaa",
                                   "wrap": true
             }
