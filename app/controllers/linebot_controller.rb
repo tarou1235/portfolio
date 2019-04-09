@@ -294,6 +294,23 @@ class LinebotController < ApplicationController
                               }
              }
           client.push_message(event['source']['groupId'], message)
+        when "参加者" then
+              group=Group.find_by(line_group_id:event['source']['groupId'])
+              users=group.users.all
+              users.each do |user|
+              make_contents(user,"確認") if user
+              end
+             bubbles = {
+                        "type": "carousel",
+                        "contents": @@contents
+                      }
+            message =
+                      {
+                                        "type": "flex",
+                                        "altText": "this is a flex message",
+                                        "contents":bubbles
+                      }
+            client.push_message(event['source']['groupId'], message)
         when "確認" then
             @@contents=[]
               group=Group.find_by(line_group_id:event['source']['groupId'])
@@ -469,10 +486,11 @@ class LinebotController < ApplicationController
                                       client.push_message(event['source']['groupId'], message)
                                       message2 = {
                                                 type: 'text',
-                                                text: "最後に宣伝です。これ買ってください。原価率40000％くらい。さよなら
+                                                text: "最後に宣伝です、これ買ってください。原価率40000%くらい。さよなら
                                                 https://store.line.me/stickershop/product/1377752/ja"
                                               }
                                       client.push_message(event['source']['groupId'], message2)
+                                      leave_group(event['source']['groupId'])
                           end
                 }
       end
