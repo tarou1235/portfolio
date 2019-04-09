@@ -547,7 +547,7 @@ class LinebotController < ApplicationController
       if obj.items
           items=obj.items
           items.each do |item|
-          items_data.push(
+          @@items_data.push(
                   {
                     "type": "box",
                     "layout": "horizontal",
