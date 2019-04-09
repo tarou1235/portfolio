@@ -490,7 +490,7 @@ class LinebotController < ApplicationController
                                                 https://store.line.me/stickershop/product/1377752/ja"
                                               }
                                       client.push_message(event['source']['groupId'], message2)
-                                      leave_group(event['source']['groupId'])
+                                      client.leave_group(event['source']['groupId'])
                           end
                 }
       end
