@@ -355,7 +355,7 @@ class LinebotController < ApplicationController
                 #@@name=nil
             end
 
-            if @@name&&!@@payment!@@image then
+            if @@name&&!@@payment&&!@@image then
               @@name=event.message['text']
                 message = {
                   type: 'text',
