@@ -409,11 +409,13 @@ class LinebotController < ApplicationController
                   client.push_message(event['source']['userId'], message)
                 @@destroy.destroy
                 else
-                  message = {
-                    type: 'text',
-                    text: '承知いたしました'
-                  }
-                  client.push_message(event['source']['userId'], message)
+                    if event.message['text'] == "いいえ" then
+                    message = {
+                      type: 'text',
+                      text: '承知いたしました'
+                    }
+                    client.push_message(event['source']['userId'], message)
+                    end
                 end
             end
         end
