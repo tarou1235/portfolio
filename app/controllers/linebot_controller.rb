@@ -449,7 +449,7 @@ class LinebotController < ApplicationController
    per_payment=cost.payment/users.count
    sabun=cost.payment-per_payment*users.count
    users.each{|user|
-                if user=users.first then
+                if user==users.first then
                   Item.create(payment:per_payment+sabun,cost_id:cost.id,user_id:user.id)
                 else
                   Item.create(payment:per_payment,cost_id:cost.id,user_id:user.id)
