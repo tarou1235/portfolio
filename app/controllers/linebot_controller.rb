@@ -32,6 +32,7 @@ class LinebotController < ApplicationController
             @@name=nil
             @@payment=nil
             @@destroy=nil
+            @@image=nil
             message = {
               type: 'text',
               text: '立て替えた内容を教えていただけますか(例:バーベキュー代)'
