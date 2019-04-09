@@ -502,11 +502,6 @@ class LinebotController < ApplicationController
                                       "contents":
                                       [
                                         {
-                                          "type": "image",
-                                          "url": "https://tagu2.herokuapp.com/#{cost.image_name}",
-                                          "size": "full"
-                                        },
-                                            {
                                               "type": "text",
                                               "text": cost.name,
                                               "weight": "bold",
@@ -554,7 +549,12 @@ class LinebotController < ApplicationController
                                                  "weight": "bold",
                                                  "color":  "#111111",
                                                  "align": "end"
-                                               }
+                                               },
+                                               {
+                                                 "type": "image",
+                                                 "url": "https://tagu2.herokuapp.com/#{cost.image_name}",
+                                                 "size": "full"
+                                               } 
                                                           ]
                                         }
 
