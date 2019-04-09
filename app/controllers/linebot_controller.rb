@@ -502,8 +502,9 @@ class LinebotController < ApplicationController
                                       "contents":
                                       [
                                         {
-                                          "thumbnailImageUrl": "https://tagu2.herokuapp.com/#{cost.image_name}",
-                                          "imageBackgroundColor": "#FFFFFF",
+                                          "type": "image",
+                                          "url": "https://tagu2.herokuapp.com/#{cost.image_name}",
+                                          "size": "md"
                                         },
                                             {
                                               "type": "text",
