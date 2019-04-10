@@ -25,7 +25,7 @@ class LinebotController < ApplicationController
         when Line::Bot::Event::Message
           case event.message['text']
           when "立替" then
-            if event['source']['userId']['type']=="user" then
+            if event['source']['type']=="user" then
               user=User.find_by(line_id:event['source']['userId'])
               user.status="0"
               message = {
@@ -350,7 +350,7 @@ class LinebotController < ApplicationController
                           }
                 client.push_message(event['source']['groupId'], message)
           else
-            if event['source']['userId']['type']=="user" then 
+            if event['source']['type']=="user" then 
               user=User.find_by(line_id:event['source']['userId'])
               case user.status
               when "3" then
