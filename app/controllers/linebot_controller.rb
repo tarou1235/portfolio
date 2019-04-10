@@ -4,11 +4,6 @@ class LinebotController < ApplicationController
   # callbackアクションのCSRFトークン認証を無効
   protect_from_forgery :except => [:callback]
 
- @@name=nil
- @@payment=nil
- @@image=nil
- @@destroy=nil
- 
   def client
         @@client ||= Line::Bot::Client.new { |config|
           config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
@@ -29,16 +24,16 @@ class LinebotController < ApplicationController
       when Line::Bot::Event::Message
         case event.message['text']
         when "立替" then
-            @@name=nil
-            @@payment=nil
-            @@destroy=nil
-            @@image=nil
+          if event['source']['type']=="user" then
+            user.status="0"
+            user=User.find_by(line_id:event['source']['userId'])
             message = {
               type: 'text',
               text: '立て替えた内容を教えていただけますか(例:バーベキュー代)'
             }
             client.push_message(event['source']['userId'], message)
-            @@name="仮"
+            user.status="1"
+          end
         when "編集" then
           message = {
             type: 'text',
@@ -354,52 +349,49 @@ class LinebotController < ApplicationController
                         }
               client.push_message(event['source']['groupId'], message)
         else
-          if @@name&&@@payment&&@@image then
-              @@image="#{SecureRandom.uuid}.jpg"
-              image_response = client.get_message_content(event.message['id']) if event['source']['type']=="user"
-              tf = File.open("#{Rails.public_path}/#{@@image}", "w+b")
-              tf.write(image_response.body)
-              user=User.find_by(line_id:event['source']['userId']) if event['source']['type']=="user"
-              cost=Cost.create(name:@@name,payment:@@payment,user_id:user.id,image_name: @@image)
-              group=user.group
-              warikan(cost)
-              message = {
-                type: 'text',
-                text: 'それでは登録いたします'
-              }
-              client.push_message(event['source']['userId'], message)
-              message2 = {
-                type: 'text',
-                text: "#{user.name}さんが#{cost.name} (#{cost.payment.to_s(:currency)})を立て替えました"
-              }
-              client.push_message(group.line_group_id, message2)
-              @@payment=nil
-              @@name=nil
-              @@image=nil
-          end
-
-            if @@name&&@@payment&&!@@image then
-
-                @@payment=event.message['text'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z').gsub(/[^\d]/, "").to_i  if event['source']['type']=="user"
-                @@image="仮"
-                #warikan(cost)
+          if event['source']['type']=="user" then
+            user=User.find_by(line_id:event['source']['userId'])
+            case user.status
+            when "3" then
+                cost=user.costs.last
+                image="#{SecureRandom.uuid}.jpg"
+                image_response = client.get_message_content(event.message['id'])
+                tf = File.open("#{Rails.public_path}/#{image}", "w+b")
+                tf.write(image_response.body)
+                cost.image_name=image
                 message = {
                   type: 'text',
-                  text: 'レシートや領収書の画像を送付してください。（最大ファイルサイズ1000×1000）'
+                  text: 'それでは登録いたします'
                 }
                 client.push_message(event['source']['userId'], message)
-            end
-
-            if @@name&&!@@payment&&!@@image then
-              @@name=event.message['text'] if event['source']['type']=="user"
-                message = {
+                group=user.group
+                message2 = {
                   type: 'text',
-                  text: '続いて、支払い金額を教えていただけますか(例：3000)'
+                  text: "#{user.name}さんが#{cost.name} (#{cost.payment.to_s(:currency)})を立て替えました"
                 }
-              client.push_message(event['source']['userId'], message)
-              @@payment=0
+                client.push_message(group.line_group_id, message2)
+                user.status="0"
+            when "2" then
+                  cost=user.costs.last
+                  cost.payment=event.message['text'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z').gsub(/[^\d]/, "").to_i  if event['source']['type']=="user"
+                  warikan(cost)
+                  message = {
+                    type: 'text',
+                    text: 'レシートや領収書の画像を送付してください。（最大ファイルサイズ1000×1000）'
+                  }
+                  client.push_message(event['source']['userId'], message)
+                  user.status="3"
+            when "1" then
+                user.costs.create(name:event.message['text'] )
+                  message = {
+                    type: 'text',
+                    text: '続いて、支払い金額を教えていただけますか(例：3000)'
+                  }
+                client.push_message(event['source']['userId'], message)
+                user.status="2"
+              end
             end
-
+          end
             if @@destroy then
                 if event.message['text'] == "はい" then
                   message = {
