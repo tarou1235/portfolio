@@ -25,8 +25,8 @@ class LinebotController < ApplicationController
           case event.message['text']
           when "立替" then
             if event['source']['type']=="user" then
-              user.status="0"
               user=User.find_by(line_id:event['source']['userId'])
+              user.status="0"
               message = {
                 type: 'text',
                 text: '立て替えた内容を教えていただけますか(例:バーベキュー代)'
