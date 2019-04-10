@@ -404,8 +404,8 @@ class LinebotController < ApplicationController
                     group=user.group
                     message2 = {
                       type: 'text',
-                      text: "#{user.name}さんが#{@@destroy.name} (#{cost.payment.to_s(:currency)})を削除しました"
-                    }
+                      text: "#{user.name}さんが#{@@destroy.name} (#{@@destroy.payment.to_s(:currency)})を削除しました"
+                    } 
                     client.push_message(group.line_group_id, message2)
                    @@destroy.destroy
 
