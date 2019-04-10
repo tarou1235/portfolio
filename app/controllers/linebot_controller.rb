@@ -350,7 +350,7 @@ class LinebotController < ApplicationController
                           }
                 client.push_message(event['source']['groupId'], message)
           else
-            if event['source']['userId']['type']=="user" then then
+            if event['source']['userId']['type']=="user" then 
               user=User.find_by(line_id:event['source']['userId'])
               case user.status
               when "3" then
