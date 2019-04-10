@@ -27,13 +27,13 @@ class LinebotController < ApplicationController
           when "立替" then
             if event['source']['type']=="user" then
               user=User.find_by(line_id:event['source']['userId'])
-              user.status="0"
+              user.update(status:"0")
               message = {
                 type: 'text',
                 text: '立て替えた内容を教えていただけますか(例:バーベキュー代)'
               }
               client.push_message(event['source']['userId'], message)
-              user.status="1"
+              user.update(status:"1")
             end
           when "編集" then
             message = {
@@ -350,7 +350,7 @@ class LinebotController < ApplicationController
                           }
                 client.push_message(event['source']['groupId'], message)
           else
-            if event['source']['type']=="user" then 
+            if event['source']['type']=="user" then
               user=User.find_by(line_id:event['source']['userId'])
               case user.status
               when "3" then
@@ -359,7 +359,7 @@ class LinebotController < ApplicationController
                   image_response = client.get_message_content(event.message['id'])
                   tf = File.open("#{Rails.public_path}/#{image}", "w+b")
                   tf.write(image_response.body)
-                  cost.image_name=image
+                  cost.update(image_name: image)
                   message = {
                     type: 'text',
                     text: 'それでは登録いたします'
@@ -371,17 +371,17 @@ class LinebotController < ApplicationController
                     text: "#{user.name}さんが#{cost.name} (#{cost.payment.to_s(:currency)})を立て替えました"
                   }
                   client.push_message(group.line_group_id, message2)
-                  user.status="0"
+                  user.update(status:"0")
               when "2" then
                     cost=user.costs.last
-                    cost.payment=event.message['text'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z').gsub(/[^\d]/, "").to_i  if event['source']['type']=="user"
+                    cost.update(payment:event.message['text'].tr('０-９ａ-ｚＡ-Ｚ','0-9a-zA-Z').gsub(/[^\d]/, "").to_i)
                     warikan(cost)
                     message = {
                       type: 'text',
                       text: 'レシートや領収書の画像を送付してください。（最大ファイルサイズ1000×1000）'
                     }
                     client.push_message(event['source']['userId'], message)
-                    user.status="3"
+                    user.update(status:"3")
               when "1" then
                   user.costs.create(name:event.message['text'] )
                     message = {
@@ -389,7 +389,7 @@ class LinebotController < ApplicationController
                       text: '続いて、支払い金額を教えていただけますか(例：3000)'
                     }
                   client.push_message(event['source']['userId'], message)
-                  user.status="2"
+                  user.update(status:"2")
               end
             end
               if @@destroy then
