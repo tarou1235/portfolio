@@ -399,7 +399,16 @@ class LinebotController < ApplicationController
                       text: '削除いたしました'
                     }
                     client.push_message(event['source']['userId'], message)
-                  @@destroy.destroy
+
+                    user=User.find_by(line_id:event['source']['userId'])
+                    group=user.group
+                    message2 = {
+                      type: 'text',
+                      text: "#{user.name}さんが#{@@destroy.name} (#{cost.payment.to_s(:currency)})を削除しました"
+                    }
+                    client.push_message(group.line_group_id, message2)
+                   @@destroy.destroy
+
                   else
                       if event.message['text'] == "いいえ" then
                       message = {
